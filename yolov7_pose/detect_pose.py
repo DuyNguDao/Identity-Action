@@ -117,7 +117,6 @@ class Y7Detect:
                         score_pt.append(conf_pt)
                     kpts.append(point)
                     scores_pt.append(score_pt)
-            print(bboxes)
             return bboxes, labels, scores, lables_id, kpts, scores_pt
 
 
