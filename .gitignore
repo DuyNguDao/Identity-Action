@@ -1,0 +1,15 @@
+yolov7_pose/weights/yolov7-w6-pose.pt
+yolov7_pose/weights/yolov7_w6_pose.pt
+classification_lstm/weights/best.pt
+#classification_lstm/weigths/best_skip.pt
+recog_recording.avi
+strong_sort/weights/osnet_x0_5_msmt17.pth
+#strong_sort/weights/osnet_x0_25_msmt17.pth
+strong_sort/weights/osnet_x1_0_market.pth
+yolov5_pose/weights/last.pt
+yolov5_pose/weights/yolov5s-face.pt
+#yolov5_pose/weights/yolov5_face.pt
+face_recognition/Weight/model.pt
+#face_recognition/Weight/backbone.pth
+face_recognition/Weight/model_mbf.pt
+__pycache__/

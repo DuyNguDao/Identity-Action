@@ -1,0 +1,10 @@
+opencv-python==4.5.5.64
+torchvision==0.10.1
+torch = 1.9.1
+thop
+tensorboard
+seaborn
+pandas
+scikit-image
+pyyaml
+pillow
