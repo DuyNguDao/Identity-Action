@@ -1,4 +1,4 @@
-# Project_Graduate
+# IDENTITY AND HUMAN ACTION RECOGNITION
 
 ## Install
 ```
@@ -10,4 +10,8 @@ pip install -r requirements.txt
 ```commandline
 python detect_video.py
 ```
-
+## Contact
+```commandline
+Address: Da Nang University of Science and Technology
+Email: 
+```

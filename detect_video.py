@@ -1,20 +1,21 @@
+"""
+PROJECT HUMAN ACTION AND IDENTIFICATION RECOGNITION
+Member: DAO DUY NGU, LE VAN THIEN
+Mentor: PhD. TRAN THI MINH HANH
+Time: 21/10/2022
+"""
 import cv2
-from yolov5_face.detect_face import Y5DetectFace, draw_result
 from face_recognition.face import Face_Model
 from yolov7_pose.detect_pose import Y7Detect, draw_kpts, draw_boxes
 import time
 import numpy as np
-import math
 from numpy import random
 from strong_sort.strong_sort import StrongSORT
 from pathlib import Path
-from collections import deque
 import torch
 import argparse
 from classification_lstm.utils.load_model import Model
 import random
-import sys
-import math
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]
@@ -25,12 +26,12 @@ torch.cuda.reset_peak_memory_stats()
 print(torch.cuda.is_available())
 
 
-def compute_distance(nose, list_face):
-    list_face = list_face.astype('float')
-    # get center top
-    top_center = list_face[:, :2] + np.concatenate([list_face[:, 2:3], list_face[:, 1:2]], axis=1)
-    top_center /= 2
-    distance = np.sqrt(np.sum((top_center - nose)**2, axis=1))
+def compute_distance(nose_body, nose_face):
+    """
+    function: compute distance between nose pose body and nose kpt face
+    """
+    nose_face = nose_face.astype('float')
+    distance = np.sqrt(np.sum((nose_face - nose_body)**2, axis=1))
     d_min = np.amin(distance)
     idx = np.argmin(distance)
     return d_min, idx
@@ -48,6 +49,7 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
     # *************************** LOAD MODEL LSTM ************************************************
     action_model = Model(WEIGTHS / 'classification_lstm/weights/best_skip.pt')
 
+    # *************************** LOAD MODEL FACE RECOGNITION ************************************
     face_model = Face_Model()
 
     # **************************** INIT TRACKING *************************************************
@@ -75,37 +77,38 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
                                        cv2.VideoWriter_fourcc(*'XVID'), fps, (frame_width, frame_height))
 
     # ******************************** REAL TIME ********************************************
-    memory = {}
-    count = True
-    turn_detect_face = True
+    memory = {}  # memory contain identification human action
+    count = True  # skip frame
+    turn_detect_face = True  # flag turn on, off face recognition
     while True:
         start = time.time()
+        # ************************************ GET FRAME *************************************
         ret, frame = cap.read()
         if not ret:
             break
         h, w, _ = frame.shape
-        # count += 1
+
         if h > h_norm and w > w_norm:
             frame = cv2.resize(frame, (w_norm, h_norm), interpolation=cv2.INTER_AREA)
             h, w, _ = frame.shape
         frame[0:h-550, w-300:w] = np.zeros((h-550, 300, 3), dtype='uint8')
 
-        # **************************** detect pose ***************************************
+        # ************************************* DETECT POSE ***********************************
         if count:
             bbox, label, score, label_id, kpts, scores_pt = y7_pose.predict(frame)
             bbox, score, kpts = np.array(bbox), np.array(score), np.array(kpts)
 
-        # detect face and recognition
-        bbox_f, label_f, label_id_f, score_f, landmark_f = face_model.detect(frame)
+        # **************************** DETECT FACE AND RECOGNITION ****************************
         face = {}
         if turn_detect_face:
+            bbox_f, label_f, label_id_f, score_f, landmark_f = face_model.detect(frame)
             for idx, box in enumerate(bbox_f):
                 feet = face_model.face_encoding(frame, kps=np.array(landmark_f[idx]))
                 name = face_model.face_compare(feet, threshold=0.3)
-                face.update({name: box})
+                face.update({name: landmark_f[idx]})
             turn_detect_face = False
             # draw_result(frame, box, name, score_f[idx], landmark_f[idx])
-
+        # ***************************** TRACKING **************************************************
         if len(bbox) != 0:
             if count:
                 data = tracker.update(bbox, score, kpts, frame)
@@ -113,35 +116,39 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
                 if len(outputs['bbox']) != 0:
                     box, kpt, track_id, list_kpt = outputs['bbox'], outputs['kpt'], outputs['id'],\
                                                              outputs['list_kpt']
-                    list_face = list(face.values())
+                    list_face = np.array(list(face.values()))
+                    # ************************************ CHECK ID *******************************************
                     if str(track_id) not in memory:
                         if len(list_face) == 0:
-                            memory.update({str(track_id): 'Unknown'})
+                            memory.update({str(track_id): ['Unknown', 0]})
                             turn_detect_face = True
                         else:
-                            d_min, pos = compute_distance(np.array(kpt[0]), np.array(list_face))
-                            w_min = (list_face[pos][3]-list_face[pos][1]) + (list_face[pos][2]-list_face[pos][0])
+                            d_min, pos = compute_distance(np.array(kpt[0]), list_face[:, 2, :])
+                            w_min = np.sqrt(np.sum((list_face[pos, 1, :] - list_face[pos, 0, :])**2, axis=0))
                             if d_min > w_min:
-                                memory.update({str(track_id): 'Unknown'})
+                                memory.update({str(track_id): ['Unknown', 0]})
                                 turn_detect_face = True
                             else:
-                                memory.update({str(track_id): list(face.keys())[pos]})
+                                memory.update({str(track_id): [list(face.keys())[pos], 0]})
                     else:
-                        if memory[str(track_id)] == 'Unknown':
+                        memory.update({str(track_id): [memory[str(track_id)][0], 0]})
+                        if memory[str(track_id)][0] == 'Unknown':
                             turn_detect_face = True
                             if len(list_face) != 0:
-                                d_min, pos = compute_distance(np.array(kpt[0]), np.array(list_face))
-                                w_min = (list_face[pos][3]-list_face[pos][1]) + (list_face[pos][2]-list_face[pos][0])
+                                d_min, pos = compute_distance(np.array(kpt[0]), list_face[:, 2, :])
+                                w_min = np.sqrt(np.sum((list_face[pos, 1, :] - list_face[pos, 0, :]) ** 2, axis=0))
                                 if d_min <= w_min:
-                                    memory.update({str(track_id): list(face.keys())[pos]})
+                                    memory.update({str(track_id): [list(face.keys())[pos], 0]})
                                     turn_detect_face = False
                                 else:
                                     turn_detect_face = True
-                    name = memory[str(track_id)]
+                    # get name id
+                    name = memory[str(track_id)][0]
                     icolor = class_name.index('0')
                     # draw_boxes(frame, box, color=colors[icolor])
                     draw_kpts(frame, [kpt])
                     color = (0, 255, 0)
+                    # ************************************ PREDICT ACTION ********************************
                     if len(list_kpt) == 15:
                         action, score = action_model.predict([list_kpt], w, h, batch_size=1)
                     try:
@@ -155,6 +162,16 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
                         cv2.putText(frame, '{}: {} - {}'.format(name, "Pending...", track_id),
                                     (max(box[0]-20, 0), box[1] + 20),
                                     cv2.FONT_HERSHEY_SIMPLEX, 1.0, color, 2, cv2.LINE_AA)
+            # update count memory with id track
+            keys = list(memory.keys())
+            for key in keys:
+                if memory[key][1] > 30:
+                    del memory[key]
+                    continue
+                memory.update({key: [memory[key][0], memory[key][1]+1]})
+            print(memory)
+
+        # ******************************************** SKIP ONE FRAME *********************************
         count = not count
         # ******************************************** SHOW *******************************************
         frame = cv2.resize(frame, (w, h), interpolation=cv2.INTER_AREA)
@@ -163,7 +180,7 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
         cv2.imshow('video', frame)
         if cv2.waitKey(1) == ord('q'):
             break
-
+        # ******************************************** SAVE VIDEO *************************************
         if flag_save is True:
             video_writer.write(frame)
 
