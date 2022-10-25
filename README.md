@@ -1,5 +1,5 @@
 # IDENTITY AND HUMAN ACTION RECOGNITION
-# Information
+# Introduction
 This is project of identity recognition and human action that is widely applied in life such as: falls in the elderly, stroke patients or behavior recognition in children
 ## Dev
 ```
