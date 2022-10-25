@@ -34,6 +34,7 @@ class Y5DetectFace:
         self.iou_threshhold = 0.45
         with torch.no_grad():
             self.model, self.device = self.load_model(use_cuda=True)
+            print("Model detect face: {}, device: {}".format(weights.split('/')[-1], self.device))
             self.model.to(device=self.device)
             self.model.eval()
             self.class_names = self.model.module.names if hasattr(self.model, "module") else self.model.names

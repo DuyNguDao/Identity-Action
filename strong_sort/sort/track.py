@@ -120,8 +120,8 @@ class Track:
         ret[2:] = ret[:2] + ret[2:]
         return ret
 
-    def ECC(self, src, dst, warp_mode = cv2.MOTION_EUCLIDEAN, eps = 1e-5,
-        max_iter = 100, scale = 0.1, align = False):
+    def ECC(self, src, dst, warp_mode = cv2.MOTION_EUCLIDEAN, eps=1e-5,
+        max_iter=100, scale=0.1, align = False):
         """Compute the warp matrix from src to dst.
         Parameters
         ----------

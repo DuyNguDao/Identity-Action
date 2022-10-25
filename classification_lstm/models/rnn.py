@@ -15,7 +15,7 @@ class RNN(nn.Module):
         self.lstm = nn.LSTM(input_size, self.hidden_size, self.num_layers, batch_first=True, dropout=0.1)
         self.fc = nn.Linear(128, num_classes)
         self.fc = nn.Sequential(nn.Linear(128, 64),
-                                nn.PReLU(),
+                                nn.ReLU(),
                                 nn.Dropout(0.1),
                                 nn.Linear(64, num_classes))
 

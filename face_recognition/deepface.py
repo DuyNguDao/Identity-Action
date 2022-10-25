@@ -47,10 +47,11 @@ class ArcFacePyTorch:
         assert net is not None
         self.model_file = model_file
         self.net = net
-        self.device = torch.device('cpu')
-        if device == 'gpu':
+        if device == 'cpu':
+            self.device = torch.device('cpu')
+        else:
             self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-        print('Use device: ', self.device)
+        print("Model face recognition: {}, device: {}".format(model_file.split('/')[-1], self.device))
         self.model = get_model(self.net, num_features=512, fp16=False)
         self.model.load_state_dict(torch.load(self.model_file))
         self.model.eval().to(device=self.device)
@@ -85,30 +86,6 @@ class ArcFacePyTorch:
         import time
         feet = self.model(img).cpu().detach().numpy()
         return feet.ravel()
-
-    # def get_feat(self, list_imgs, batch_size=2):
-    #     import math
-    #     list_feet = []
-    #     for i in range(math.ceil(len(list_imgs) / batch_size)):
-    #
-    #         if (i + 1) * batch_size > len(list_imgs):
-    #             data = list_imgs[i * batch_size:(i + 1) * batch_size]
-    #         else:
-    #             data = list_imgs[i * batch_size:len(list_imgs)]
-    #         list_data = []
-    #         for imgs in data:
-    #             img = cv2.resize(imgs, (112, 112))
-    #             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    #             img = np.transpose(img, (2, 0, 1))
-    #             img = torch.from_numpy(img).unsqueeze(0).float()
-    #             img.div_(255).sub_(0.5).div_(0.5)
-    #             list_data.append(img)
-    #         list_data = torch.cat(list_data, dim=0)
-    #         img = list_data.to(device=self.device)
-    #         torch.cuda.empty_cache()
-    #         feet = self.model(img).cpu().detach().numpy()
-    #         print(list_feet.shape)
-    #     return feet.ravel()
 
 
 class Face(dict):

@@ -4,6 +4,15 @@
     <list default="true" id="99d32281-e1d6-4107-a7aa-38f1f65514d4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_lstm/models/rnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_lstm/models/rnn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_lstm/utils/load_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_lstm/utils/load_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_lstm/weights/best_skip.pt" beforeDir="false" afterPath="$PROJECT_DIR$/classification_lstm/weights/best_skip.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detect_video.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect_video.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face_recognition/deepface.py" beforeDir="false" afterPath="$PROJECT_DIR$/face_recognition/deepface.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face_recognition/face.py" beforeDir="false" afterPath="$PROJECT_DIR$/face_recognition/face.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/strong_sort/sort/track.py" beforeDir="false" afterPath="$PROJECT_DIR$/strong_sort/sort/track.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yolov5_face/detect_face.py" beforeDir="false" afterPath="$PROJECT_DIR$/yolov5_face/detect_face.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yolov7_pose/detect_pose.py" beforeDir="false" afterPath="$PROJECT_DIR$/yolov7_pose/detect_pose.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,14 +38,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/duyngu/Desktop/LSTM_Interface&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/home/duyngu/Desktop/LSTM_Interface",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/yolov7_pose/models" />

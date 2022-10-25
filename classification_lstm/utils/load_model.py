@@ -1,25 +1,25 @@
 import torch
 import torch.nn as nn
-from PIL import Image
-from torchvision import transforms
-import cv2
 from classification_lstm.models.rnn import RNN
-import csv
 import numpy as np
 
 
 class Model:
-    def __init__(self, path):
+    def __init__(self, skip=True, device='cpu'):
+
         # config device cuda or cpu
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        if device == 'cpu':
+            self.device = 'cpu'
+        else:
+            self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self.model = RNN(input_size=26, num_classes=7, device=self.device).to(self.device)
-        self.path = path
+        if skip:
+            self.path = 'classification_lstm/weights/best_skip.pt'
+        else:
+            self.path = 'classification_lstm/weights/best.pt'
         self.load_model()
         self.model.eval()
-
-        def count_parameters(model):
-            return sum(p.numel() for p in model.parameters() if p.requires_grad)
-        print("Number parameters: ", count_parameters(self.model))
+        print("Model detect face: {}, device: {}".format(self.path.split('/')[-1], self.device))
         self.class_names = ['Standing', 'Stand up', 'Sitting', 'Sit down', 'Lying Down', 'Walking', 'Fall Down']
 
     def load_model(self):
@@ -36,40 +36,6 @@ class Model:
         :param image: array image
         :return:
         """
-        def compute_angle(features):
-            # ********************************* COMPUTE ANGLE *********************************************
-            # angle knee right
-            knee_hip = features[:, :, 14:15, :] - features[:, :, 12:13, :]
-            knee_ankle = features[:, :, 14:15, :] - features[:, :, 16:17, :]
-            a = np.sum(knee_hip * knee_ankle, axis=3)
-            b = np.sqrt(np.sum(knee_hip ** 2, axis=3)) * np.sqrt(np.sum(knee_ankle ** 2, axis=3))
-            b = np.where(b == 0, 1, b)
-            angle_knee_right = a / b
-
-            # angle knee left
-            knee_hip = features[:, :, 13:14, :] - features[:, :, 11:12, :]
-            knee_ankle = features[:, :, 13:14, :] - features[:, :, 15:16, :]
-            a = np.sum(knee_hip * knee_ankle, axis=3)
-            b = np.sqrt(np.sum(knee_hip ** 2, axis=3)) * np.sqrt(np.sum(knee_ankle ** 2, axis=3))
-            b = np.where(b == 0, 1, b)
-            angle_knee_left = a / b
-
-            # angle hip right
-            hip_shoulder = features[:, :, 12:13, :] - features[:, :, 6:7, :]
-            hip_knee = features[:, :, 12:13, :] - features[:, :, 14:15, :]
-            a = np.sum(hip_shoulder * hip_knee, axis=3)
-            b = np.sqrt(np.sum(hip_shoulder ** 2, axis=3)) * np.sqrt(np.sum(hip_knee ** 2, axis=3))
-            b = np.where(b == 0, 1, b)
-            angle_hip_right = a / b
-
-            # angle hip left
-            hip_shoulder = features[:, :, 11:12, :] - features[:, :, 5:6, :]
-            hip_knee = features[:, :, 11:12, :] - features[:, :, 13:14, :]
-            a = np.sum(hip_shoulder * hip_knee, axis=3)
-            b = np.sqrt(np.sum(hip_shoulder ** 2, axis=3)) * np.sqrt(np.sum(hip_knee ** 2, axis=3))
-            b = np.where(b == 0, 1, b)
-            angle_hip_left = a / b
-            return [angle_hip_left, angle_hip_right, angle_knee_left, angle_knee_right]
 
         def scale_pose(xy):
             """
@@ -82,17 +48,13 @@ class Model:
             return xy
 
         pose = np.array(list_data)
-        angle = compute_angle(pose)
-        angle = []
+        pose = pose[:, :, :, :2]
         pose = np.concatenate([pose[:, :, 0:1, :], pose[:, :, 5:, :]], axis=2)  # remove point 1,2,3,4
         # normalize
         pose[:, :, :, 0] /= size_w
         pose[:, :, :, 1] /= size_h
         pose = scale_pose(pose)
         pose = pose.reshape(pose.shape[0], pose.shape[1], pose.shape[2]*pose.shape[3])
-        pose = [pose]
-        pose.extend(angle)
-        pose = np.concatenate(pose, axis=2)
         pose = torch.tensor(pose)
         return pose
 
@@ -122,13 +84,3 @@ class Model:
                 label.append(self.class_names[name])
                 score.append(max(percentage[idx]))
         return label, score
-
-
-if __name__ == '__main__':
-    import random
-    from glob import glob
-    import time
-
-
-
-

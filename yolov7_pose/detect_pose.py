@@ -24,7 +24,7 @@ sys.path.insert(0, str(ROOT))
 
 
 class Y7Detect:
-    def __init__(self, weights):
+    def __init__(self, weights='yolov7_pose/weights/yolov7_w6_pose.pt'):
         """
         params weights: 'yolov7.pt'
         """
@@ -34,6 +34,7 @@ class Y7Detect:
         self.iou_threshold = 0.45
         with torch.no_grad():
             self.model, self.device = self.load_model(use_cuda=True)
+            print("Model detect pose: {}, device: {}".format(weights.split('/')[-1], self.device))
             self.model.to(device=self.device)
             self.model.eval()
             self.stride = int(self.model.stride.max())  # model stride
@@ -84,8 +85,6 @@ class Y7Detect:
             scores = []
             lables_id = []
             kpts = []
-            scores_pt = []
-            line = []
             for i, det in enumerate(pred):
                 if det is not None and len(det):
                     # Rescale boxes from img_size to im0 size
@@ -108,16 +107,14 @@ class Y7Detect:
                     kpt = det[det_idx, 6:].detach().cpu().data.numpy()
                     steps = 3
                     num_kpts = len(kpt) // steps
-                    point, score_pt, line_pt = [], [], []
+                    point = []
                     for kid in range(num_kpts):
                         x_coord, y_coord = kpt[steps * kid], kpt[steps * kid + 1]
                         if steps == 3:
                             conf_pt = kpt[steps * kid + 2]
-                        point.append([int(x_coord), int(y_coord)])
-                        score_pt.append(conf_pt)
+                        point.append([int(x_coord), int(y_coord), conf_pt])
                     kpts.append(point)
-                    scores_pt.append(score_pt)
-            return bboxes, labels, scores, lables_id, kpts, scores_pt
+            return bboxes, labels, scores, lables_id, kpts
 
 
 def draw_boxes(image, boxes, label=None, scores=None, color=None):

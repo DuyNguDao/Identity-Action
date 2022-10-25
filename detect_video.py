@@ -15,6 +15,7 @@ from pathlib import Path
 import torch
 import argparse
 from classification_lstm.utils.load_model import Model
+from classification_stgcn.Actionsrecognition.ActionsEstLoader import TSSTG
 import random
 
 FILE = Path(__file__).resolve()
@@ -42,15 +43,17 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
     # ******************************** LOAD MODEL *************************************************
     # load model detect yolov7 pose
     device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
-    y7_pose = Y7Detect(weights=WEIGTHS / 'yolov7_pose/weights/yolov7_w6_pose.pt')
+    y7_pose = Y7Detect()
     class_name = y7_pose.class_names
     colors = [[random.randint(0, 255) for _ in range(3)] for _ in class_name]
 
-    # *************************** LOAD MODEL LSTM ************************************************
-    action_model = Model(WEIGTHS / 'classification_lstm/weights/best_skip.pt')
-
+    # *************************** LOAD MODEL LSTM OR ST-GCN ************************************************
+    # LSTM
+    action_model = Model(device=device, skip=True)
+    # ST-GCN
+    # action_model = TSSTG(device=device, skip=True)
     # *************************** LOAD MODEL FACE RECOGNITION ************************************
-    face_model = Face_Model()
+    face_model = Face_Model(device=device)
 
     # **************************** INIT TRACKING *************************************************
     tracker = StrongSORT(device=device, max_age=30, n_init=3, max_iou_distance=0.7)  # deep sort
@@ -91,11 +94,11 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
         if h > h_norm and w > w_norm:
             frame = cv2.resize(frame, (w_norm, h_norm), interpolation=cv2.INTER_AREA)
             h, w, _ = frame.shape
-        frame[0:h-550, w-300:w] = np.zeros((h-550, 300, 3), dtype='uint8')
+        # frame[0:h-550, w-300:w] = np.zeros((h-550, 300, 3), dtype='uint8')
 
         # ************************************* DETECT POSE ***********************************
         if count:
-            bbox, label, score, label_id, kpts, scores_pt = y7_pose.predict(frame)
+            bbox, label, score, label_id, kpts = y7_pose.predict(frame)
             bbox, score, kpts = np.array(bbox), np.array(score), np.array(kpts)
 
         # **************************** DETECT FACE AND RECOGNITION ****************************
@@ -117,6 +120,7 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
                     box, kpt, track_id, list_kpt = outputs['bbox'], outputs['kpt'], outputs['id'],\
                                                              outputs['list_kpt']
                     list_face = np.array(list(face.values()))
+                    kpt = kpt[:, :2].astype('int')
                     # ************************************ CHECK ID *******************************************
                     if str(track_id) not in memory:
                         if len(list_face) == 0:
@@ -151,13 +155,13 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
                     # ************************************ PREDICT ACTION ********************************
                     if len(list_kpt) == 15:
                         action, score = action_model.predict([list_kpt], w, h, batch_size=1)
+                        # action, score = action_model.predict(list_kpt, (w, h))
                     try:
                         if action[0] == "Fall Down":
                             color = (0, 0, 255)
                         cv2.putText(frame, '{}: {} - {}'.format(name, action[0], track_id),
                                     (max(box[0]-20, 0), box[1] + 20),
                                     cv2.FONT_HERSHEY_SIMPLEX, 1.0, color, 2, cv2.LINE_AA)
-                        action = ["Pending..."]
                     except:
                         cv2.putText(frame, '{}: {} - {}'.format(name, "Pending...", track_id),
                                     (max(box[0]-20, 0), box[1] + 20),
@@ -169,12 +173,10 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
                     del memory[key]
                     continue
                 memory.update({key: [memory[key][0], memory[key][1]+1]})
-            print(memory)
 
         # ******************************************** SKIP ONE FRAME *********************************
         count = not count
         # ******************************************** SHOW *******************************************
-        frame = cv2.resize(frame, (w, h), interpolation=cv2.INTER_AREA)
         fps = int(1 / (time.time() - start))
         cv2.putText(frame, 'FPS:' + str(fps), (0, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
         cv2.imshow('video', frame)
@@ -200,6 +202,7 @@ if __name__ == '__main__':
 
     # PATH VIDEO
     url = '/home/duyngu/Downloads/video_test/20221001153808324_7F01683RAZE9C1D.mp4'
+    # url = ''
     source = args.file_name
     cv2.namedWindow('video')
     # if run  as terminal, replace url = source
