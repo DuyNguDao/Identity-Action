@@ -1,6 +1,11 @@
 # IDENTITY AND HUMAN ACTION RECOGNITION
-# Introduction
+## Information
 This is project of identity recognition and human action that is widely applied in life such as: falls in the elderly, stroke patients or behavior recognition in children
+## video demo
+![](./information/recog_recording.gif)
+## System Diagram
+
+![](./information/System_diagram.png)
 ## Dev
 ```
 Member:
@@ -30,23 +35,60 @@ model yolov7 pose state dict:
 python detect_video.py
 ```
 ## Datasets and result model training
-[dataset and result]()
+[dataset and result](https://drive.google.com/drive/folders/1vUVeRMsII_z8zrGlVC7mybRaUiY5lz_s?usp=sharing)
 ## Result face recognition
+### Diagram
+
+![](information/face_recognition_diagram.png)
 ### Face detection
+#### FDDB DATA
 * Confusion matrix of YOLO5Face
+
+![](./information/confusion_matrix_FDDB_YOLO.png)
 * Confusion matrix of RetinaFace
-* Result compare: Accuracy, Precision, Recall, Time processing
 
+![](./information/confusion_matrix_FDDB_RetinaFace.png)
+
+#### WIDERFACE Val
+* Confusion matrix of YOLO5Face
+
+![](./information/confusion_matrix_WIDERFACE_YOLO.png)
+* Confusion matrix of RetinaFace
+
+![](./information/confusion_matrix_WIDERFACE_RetinaFace.png)
+#### Result compare: Accuracy, Precision, Recall, Time processing
+
+![](./information/table_compare_face_detect.png)
+
+#### Face landmark loss
+
+![](./information/loss_nme.png)
 ### Face recognition
-Backbone compare: MobileFaceNet, ResNet18
-methods compare: LOOCV (Leave One Of Cross Validation), Time processing
+#### Backbone compare:
+* MobileFaceNet
 
+![](./information/MobileFaceNet.png)
+* ResNet18
+
+![](information/ResNet18.png)
+#### Methods compare: LOOCV (Leave One Of Cross Validation), Time processing with FaceScrub data
+
+![](./information/table_compare_face_recog.png)
 ## Result human action pose
+### Diagram
+
+![](./information/human_action_diagram.png)
 ### Confusion matrix
 * Model LSTM (Long Short Term Memory)
+
+![](./information/confusion_matrix_LSTM.png)
 * Model ST-GCN (Spatial Temporal - Graph Convolutional Network)
+
+![](./information/confusion_matrix_STGCN.png)
 ### Methods compare
 Accuracy, Precision, Recall, F1-score, Time processing
+
+![](./information/)
 ### Training
 * LSTM
 ```
