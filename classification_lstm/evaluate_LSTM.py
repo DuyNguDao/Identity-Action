@@ -50,7 +50,7 @@ def plot_cm(CM, normalize=True, save_dir='', names_x=(), names_y=(), show=True):
         plt.title('Accuracy: {}%'.format(round(accu*100)), fontweight='bold', fontsize=20)
         if show:
             plt.show()
-        name_save = 'confusion_matrix.png'
+        name_save = 'confusion_matrix_STGCN.png'
         if normalize:
             name_save = 'confusion_matrix_normalize.png'
         fig.savefig(Path(save_dir) / name_save, dpi=300)

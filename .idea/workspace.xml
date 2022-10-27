@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="99d32281-e1d6-4107-a7aa-38f1f65514d4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_lstm/utils/load_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_lstm/utils/load_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_stgcn/Actionsrecognition/ActionsEstLoader.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_stgcn/Actionsrecognition/ActionsEstLoader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_stgcn/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_stgcn/evaluate_STGCN.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/torchreid/utils/GPU-Re-Ranking/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/torchreid/utils/GPU-Re-Ranking/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="99d32281-e1d6-4107-a7aa-38f1f65514d4" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
