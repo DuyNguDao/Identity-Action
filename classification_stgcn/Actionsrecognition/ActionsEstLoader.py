@@ -18,7 +18,6 @@ class TSSTG(object):
         weight_file: (str) Path to trained weights file.
         device: (str) Device to load the model on 'cpu' or 'cuda'.
     """
-    #./Models/TSSTG/tsstg-model.pth
     def __init__(self, skip=False, device='cpu'):
         if skip:
             weight_file = ROOT / 'weights/tsstg-model_skip.pth'

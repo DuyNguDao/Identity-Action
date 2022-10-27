@@ -2,6 +2,10 @@ import torch
 import torch.nn as nn
 from classification_lstm.models.rnn import RNN
 import numpy as np
+from pathlib import Path
+
+FILE = Path(__file__).resolve()
+ROOT = FILE.parents[1]
 
 
 class Model:
@@ -14,9 +18,9 @@ class Model:
             self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self.model = RNN(input_size=26, num_classes=7, device=self.device).to(self.device)
         if skip:
-            self.path = 'classification_lstm/weights/best_skip.pt'
+            self.path = str(ROOT / 'weights/best_skip.pt')
         else:
-            self.path = 'classification_lstm/weights/best.pt'
+            self.path = str(ROOT / 'weights/best.pt')
         self.load_model()
         self.model.eval()
         print("Model detect face: {}, device: {}".format(self.path.split('/')[-1], self.device))

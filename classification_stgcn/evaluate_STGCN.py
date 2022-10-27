@@ -8,9 +8,11 @@ import numpy as np
 from sklearn import metrics
 from tqdm import tqdm
 import pickle
+from torch.utils.data import DataLoader, TensorDataset
+import torch
 
 
-action_model = TSSTG(device='gpu')
+action_model = TSSTG(device='gpu', skip=True)
 
 
 def plot_cm(CM, normalize=True, save_dir='', names_x=(), names_y=(), show=True):
@@ -58,6 +60,7 @@ def plot_cm(CM, normalize=True, save_dir='', names_x=(), names_y=(), show=True):
 if __name__ == "__main__":
 
     path_test = '/home/duyngu/Downloads/Dataset_Human_Action/test_no_scale.pkl'
+    batch_size = 32
     # Load dataset
     features, labels = [], []
     with open(path_test, 'rb') as f:
@@ -67,17 +70,46 @@ if __name__ == "__main__":
     del fts, lbs
 
     features = np.concatenate(features, axis=0)  # 30x34
+
+
+    def scale_pose(xy):
+        """
+        Normalize pose points by scale with max/min value of each pose.
+        xy : (frames, parts, xy) or (parts, xy)
+        """
+        if xy.ndim == 2:
+            xy = np.expand_dims(xy, 0)
+        xy_min = np.nanmin(xy, axis=2).reshape(xy.shape[0], xy.shape[1], 1, 2)
+        xy_max = np.nanmax(xy, axis=2).reshape(xy.shape[0], xy.shape[1], 1, 2)
+        xy = (xy - xy_min) / (xy_max - xy_min) * 2 - 1
+        return xy
+
+
+    labels = np.concatenate(labels, axis=0).argmax(1)
     # get 15 frame
     features = features[:, ::2, :, :]
-    features[:, :, :, :2] *= 640
-    labels = np.concatenate(labels, axis=0).argmax(1)
-    pbar_test = tqdm(zip(features, labels), desc=f'Evaluate', unit=f'/{len(features)}')
+    features[:, :, :, :2] = scale_pose(features[:, :, :, :2])
+    test_dataset = TensorDataset(torch.tensor(features, dtype=torch.float32),
+                                torch.tensor(labels))
+
+    test_loader = DataLoader(
+        test_dataset,
+        batch_size=batch_size, shuffle=False,
+        num_workers=batch_size, pin_memory=True)
+
+    pbar_test = tqdm(test_loader, desc=f'Evaluate', unit='batch')
     truth = []
     pred = []
-    for batch_vid, labels in pbar_test:
-        out, score = action_model.predict(batch_vid, (640, 640))
-        truth.append(labels)
-        pred.append(action_model.class_names.index(out[0]))
+    device = "cuda:0" if torch.cuda.is_available() else 'cpu'
+    for pts, labels in pbar_test:
+        pts = pts.permute(0, 3, 1, 2)
+        mot = pts[:, :2, 1:, :] - pts[:, :2, :-1, :]
+        mot = mot.to(device)
+        pts = pts.to(device)
+        out = action_model.model((pts, mot))
+        _, preds = torch.max(out, 1)
+        truth.extend(labels.data.tolist())
+        pred.extend(preds.tolist())
     class_names = action_model.class_names
     CM = metrics.confusion_matrix(truth, pred).T
     precision = metrics.precision_score(truth, pred, average=None)
