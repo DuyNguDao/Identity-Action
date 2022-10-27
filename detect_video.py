@@ -197,7 +197,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Detect Face On Video')
     parser.add_argument("-fn", "--file_name", help="video file name or rtsp", default='', type=str)
     parser.add_argument("-op", "--option", help="if save video then choice option = 1", default=True, type=bool)
-    parser.add_argument("-o", "--output", help="path to output video file", default='recog_recording.gif', type=str)
+    parser.add_argument("-o", "--output", help="path to output video file", default='recog_recording.avi', type=str)
     parser.add_argument("-f", "--fps", default=30, help="FPS of output video", type=int)
     args = parser.parse_args()
 

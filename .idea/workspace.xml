@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="99d32281-e1d6-4107-a7aa-38f1f65514d4" name="Changes" comment="" />
+    <list default="true" id="99d32281-e1d6-4107-a7aa-38f1f65514d4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detect_video.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect_video.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,17 +36,20 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/home/duyngu/Desktop/LSTM",
+    "last_opened_file_path": "/home/duyngu/Desktop/Project_Graduate/information",
     "settings.editor.selected.configurable": "shared-indexes"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/information" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/yolov7_pose/models" />
       <recent name="$PROJECT_DIR$/yolov5_face/weights" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.evaluate_LSTM">
+  <component name="RunManager" selected="Python.evaluate_STGCN">
     <configuration name="detect_face" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PROJECT_GRADUATE" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -151,9 +157,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.evaluate_LSTM" />
         <item itemvalue="Python.evaluate_STGCN" />
         <item itemvalue="Python.detect_video" />
+        <item itemvalue="Python.evaluate_LSTM" />
         <item itemvalue="Python.detect_pose" />
         <item itemvalue="Python.detect_face" />
       </list>
