@@ -88,7 +88,7 @@ python detect_video.py
 ### Methods compare
 Accuracy, Precision, Recall, F1-score, Time processing
 
-![](./information/)
+![](./information/table_compare_action.png)
 ### Training
 * LSTM
 ```
