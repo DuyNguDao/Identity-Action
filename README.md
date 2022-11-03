@@ -90,7 +90,12 @@ python detect_video.py
 ![](./information/confusion_matrix_STGCN.png)
 ### Methods compare
 Accuracy, Precision, Recall, F1-score, Time processing
+<<<<<<< HEAD
 ![](./information/)
+=======
+
+![](./information/table_compare_action.png)
+>>>>>>> 92b893776fc379b5e5fe84f6acba8a50cfb8e43a
 ### Training
 * LSTM
 ```
