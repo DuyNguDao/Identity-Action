@@ -128,13 +128,13 @@ def draw_boxes(image, boxes, label=None, scores=None, color=None):
 
 def draw_kpts(image, kpts):
     for kpt in kpts:
-        line_0 = [4, 2, 0, 1, 3, 5, 6]
-        line_1 = [10, 8, 6, 12, 11, 5, 7, 9]
+        line_0 = [10, 8, 6, 5, 7, 9]
+        line_1 = [12, 6, 5, 11]
         line_2 = [15, 13, 11, 12, 14, 16]
-        cv2.polylines(image, [kpt[line_0]], True, (255, 0, 0), 5)
-        cv2.polylines(image, [kpt[line_1]], False, (255, 0, 0), 5)
-        cv2.polylines(image, [kpt[line_2]], False, (255, 0, 0), 5)
-        for idx, point in enumerate(kpt):
+        cv2.polylines(image, [kpt[line_0]], False, (255, 255, 20), 5)
+        cv2.polylines(image, [kpt[line_1]], True, (255, 20, 255), 5)
+        cv2.polylines(image, [kpt[line_2]], False, (20, 255, 255), 5)
+        for idx, point in enumerate(kpt[5:]):
             cv2.circle(image, (point[0], point[1]), 5, (0, 0, 255), -1)
     return image
 

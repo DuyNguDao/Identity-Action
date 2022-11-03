@@ -7,6 +7,7 @@ Time: 21/10/2022
 import cv2
 from face_recognition.face import Face_Model
 from yolov7_pose.detect_pose import Y7Detect, draw_kpts, draw_boxes
+from yolov5_face.detect_face import draw_result
 import time
 import numpy as np
 from numpy import random
@@ -17,6 +18,7 @@ import argparse
 from classification_lstm.utils.load_model import Model
 from classification_stgcn.Actionsrecognition.ActionsEstLoader import TSSTG
 import random
+from collections import deque
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]
@@ -68,6 +70,7 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
     # get size
     frame_width = int(cap.get(3))
     frame_height = int(cap.get(4))
+    print(frame_height, frame_width)
     h_norm, w_norm = 720, 1280
     if frame_height > h_norm and frame_width > w_norm:
         frame_width = w_norm
@@ -92,26 +95,38 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
             break
         h, w, _ = frame.shape
 
-        if h > h_norm and w > w_norm:
-            frame = cv2.resize(frame, (w_norm, h_norm), interpolation=cv2.INTER_AREA)
+        if h > h_norm or w > w_norm:
+            rate_max = max(h_norm / h, w_norm / w)
+            frame = cv2.resize(frame, (int(rate_max * w), int(rate_max * h)), interpolation=cv2.INTER_AREA)
             h, w, _ = frame.shape
         # frame[0:h-550, w-300:w] = np.zeros((h-550, 300, 3), dtype='uint8')
-
         # ************************************* DETECT POSE ***********************************
         if count:
             bbox, label, score, label_id, kpts = y7_pose.predict(frame)
+            id_hold = []
+            for i, box in enumerate(bbox):
+                # check and remove bbox
+                if box[0] < 10 or box[1] < 10 or box[2] > w - 10 or box[3] > h - 10:
+                    id_hold.append(False)
+                    continue
+                id_hold.append(True)
             bbox, score, kpts = np.array(bbox), np.array(score), np.array(kpts)
+            bbox, score, kpts = bbox[id_hold], score[id_hold], kpts[id_hold]
 
         # **************************** DETECT FACE AND RECOGNITION ****************************
         face = {}
         if turn_detect_face:
             bbox_f, label_f, label_id_f, score_f, landmark_f = face_model.detect(frame)
             for idx, box in enumerate(bbox_f):
+                # check and remove face small
+                if box[2] - box[0] < 15 or box[3] - box[1] < 15:
+                    continue
                 feet = face_model.face_encoding(frame, kps=np.array(landmark_f[idx]))
                 name = face_model.face_compare(feet, threshold=0.3)
                 face.update({name: landmark_f[idx]})
+                draw_result(frame, box, '', score_f[idx], landmark_f[idx])
             turn_detect_face = False
-            # draw_result(frame, box, name, score_f[idx], landmark_f[idx])
+        cv2.rectangle(frame, (10, 10), (w-10, h-10), (0, 255, 0), 2)
         # ***************************** TRACKING **************************************************
         if len(bbox) != 0:
             if count:
@@ -152,7 +167,8 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
                     icolor = class_name.index('0')
                     # draw_boxes(frame, box, color=colors[icolor])
                     draw_kpts(frame, [kpt])
-                    color = (0, 255, 0)
+                    color = (0, 255, 255)
+                    color1 = (255, 255, 0)
                     # ************************************ PREDICT ACTION ********************************
                     if len(list_kpt) == 15:
                         action, score = action_model.predict([list_kpt], w, h, batch_size=1)
@@ -160,12 +176,18 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
                     try:
                         if action[0] == "Fall Down":
                             color = (0, 0, 255)
-                        cv2.putText(frame, '{}: {} - {}'.format(name, action[0], track_id),
-                                    (max(box[0]-20, 0), box[1] + 20),
+                        cv2.putText(frame, '{}: {}'.format(name, track_id),
+                                    (max(box[0]-20, 0), box[1] + 30),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 1.0, color1, 2, cv2.LINE_AA)
+                        cv2.putText(frame, '{}'.format(action[0]),
+                                    (max(box[0]-20, 0), box[1] + 60),
                                     cv2.FONT_HERSHEY_SIMPLEX, 1.0, color, 2, cv2.LINE_AA)
                     except:
-                        cv2.putText(frame, '{}: {} - {}'.format(name, "Pending...", track_id),
-                                    (max(box[0]-20, 0), box[1] + 20),
+                        cv2.putText(frame, '{}: {}'.format(name, track_id),
+                                    (max(box[0] - 20, 0), box[1] + 30),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 1.0, color1, 2, cv2.LINE_AA)
+                        cv2.putText(frame, '{}'.format('Pending ...'),
+                                    (max(box[0] - 20, 0), box[1] + 60),
                                     cv2.FONT_HERSHEY_SIMPLEX, 1.0, color, 2, cv2.LINE_AA)
             # update count memory with id track
             keys = list(memory.keys())
@@ -202,8 +224,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # # PATH VIDEO
-    url = '/home/duyngu/Downloads/video_test/20221001153808324_7F01683RAZE9C1D.mp4'
-    # url = ''
+    url = '/home/duyngu/Downloads/video_test/video_hanh_dong_truong_hoc.mp4'
+    # url = 'video1.avi'
     source = args.file_name
     cv2.namedWindow('video')
     # if run  as terminal, replace url = source

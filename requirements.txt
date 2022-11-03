@@ -8,3 +8,6 @@ pandas
 scikit-image
 pyyaml
 pillow
+gdown
+tqdm
+

@@ -74,6 +74,9 @@ python detect_video.py
 #### Methods compare: LOOCV (Leave One Of Cross Validation), Time processing with FaceScrub data
 
 ![](./information/table_compare_face_recog.png)
+### Diagram Accuracy Thresh
+
+![](./information/AT.png)
 ## Result human action pose
 ### Diagram
 
@@ -87,7 +90,6 @@ python detect_video.py
 ![](./information/confusion_matrix_STGCN.png)
 ### Methods compare
 Accuracy, Precision, Recall, F1-score, Time processing
-
 ![](./information/)
 ### Training
 * LSTM
