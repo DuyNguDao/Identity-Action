@@ -59,7 +59,7 @@ def plot_cm(CM, normalize=True, save_dir='', names_x=(), names_y=(), show=True):
 
 if __name__ == "__main__":
 
-    path_test = '/home/duyngu/Downloads/Dataset_Human_Action/test_no_scale.pkl'
+    path_test = '/home/duyngu/Downloads/test_no_scale.pkl'
     batch_size = 32
     # Load dataset
     features, labels = [], []
