@@ -90,7 +90,7 @@ python detect_video.py
 ![](./information/confusion_matrix_STGCN.png)
 ### Methods compare
 Accuracy, Precision, Recall, F1-score, Time processing
-<<<<<<< HEAD
+
 ![](./information/)
 =======
 
