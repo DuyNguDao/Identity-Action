@@ -11,20 +11,24 @@ ROOT = FILE.parents[1]
 class Model:
     def __init__(self, skip=True, device='cpu'):
 
+        self.class_names = ['Sit down', 'Lying Down', 'Walking', 'Stand up', 'Standing', 'Fall Down', 'Sitting']
+        # self.class_names = ['Fall Down', 'Other action']
+        # self.class_names = ['Siting', 'Lying Down', 'Walking or Standing', 'Fall Down']
         # config device cuda or cpu
         if device == 'cpu':
             self.device = 'cpu'
         else:
             self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-        self.model = RNN(input_size=26, num_classes=7, device=self.device).to(self.device)
+        self.model = RNN(input_size=26, num_classes=len(self.class_names), device=self.device).to(self.device)
         if skip:
-            self.path = str(ROOT / 'weights/best_skip.pt')
+            self.path = str(ROOT / 'weights/best_skip_lstm.pt')
         else:
             self.path = str(ROOT / 'weights/best.pt')
         self.load_model()
         self.model.eval()
         print("Model detect face: {}, device: {}".format(self.path.split('/')[-1], self.device))
-        self.class_names = ['Standing', 'Stand up', 'Sitting', 'Sit down', 'Lying Down', 'Walking', 'Fall Down']
+        # self.class_names = ['Standing', 'Stand up', 'Sitting', 'Sit down', 'Lying Down', 'Walking', 'Fall Down']
+
 
     def load_model(self):
         """

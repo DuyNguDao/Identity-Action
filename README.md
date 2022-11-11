@@ -35,7 +35,13 @@ model yolov7 pose state dict:
 python detect_video.py
 ```
 ## Datasets and result model training
-[dataset and result](https://drive.google.com/drive/folders/1vUVeRMsII_z8zrGlVC7mybRaUiY5lz_s?usp=sharing)
+### Dataset human action
+[Human action](https://www.kaggle.com/datasets/ngoduy/dataset-video-for-human-action-recognition)
+### Dataset Face Detection
+[Face detection](https://www.kaggle.com/datasets/ngoduy/dataset-for-face-detection)
+### Dataset Face Recognition
+[Face recognition](https://www.kaggle.com/datasets/ngoduy/face-recognition-with-webface-and-facescrib)
+
 ## Result face recognition
 ### Diagram
 
@@ -90,26 +96,20 @@ python detect_video.py
 ![](./information/confusion_matrix_STGCN.png)
 ### Methods compare
 Accuracy, Precision, Recall, F1-score, Time processing
-<<<<<<< HEAD
-![](./information/)
-=======
 
 ![](./information/table_compare_action.png)
->>>>>>> 92b893776fc379b5e5fe84f6acba8a50cfb8e43a
+
+
 ### Training
-* LSTM
-```
-https://github.com/DuyNguDao/LSTM.git
-```
-* Face Detection
-```
-https://github.com/deepcam-cn/yolov5-face.git
-https://github.com/biubug6/Pytorch_Retinaface.git
-```
-* Face recognition
-```
-https://github.com/DuyNguDao/ArcFace_Pytorch.git
-```
+#### Human action
+* https://github.com/DuyNguDao/LSTM.git
+* https://github.com/DuyNguDao/ST-GCN-Pytorch.git
+#### Face Detection
+* https://github.com/deepcam-cn/yolov5-face.git
+* https://github.com/biubug6/Pytorch_Retinaface.git
+#### Face recognition
+* https://github.com/DuyNguDao/ArcFace_Pytorch.git
+
 ## Contact
 ```
 Address: Da Nang University of Science and Technology
@@ -120,6 +120,7 @@ Email: 106180036@sv1.dut.udn.vn
 * https://github.com/deepcam-cn/yolov5-face.git
 * https://github.com/WongKinYiu/yolov7.git
 * https://github.com/biubug6/Pytorch_Retinaface.git
+* https://github.com/GajuuzZ/Human-Falling-Detect-Tracks.git
 
 
 

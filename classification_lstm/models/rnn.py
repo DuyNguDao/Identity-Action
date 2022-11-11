@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 
 class RNN(nn.Module):
@@ -13,7 +12,7 @@ class RNN(nn.Module):
         self.hidden_size = 128
         self.num_layers = 3
         self.lstm = nn.LSTM(input_size, self.hidden_size, self.num_layers, batch_first=True, dropout=0.1)
-        self.fc = nn.Linear(128, num_classes)
+        # self.fc = nn.Linear(128, num_classes)
         self.fc = nn.Sequential(nn.Linear(128, 64),
                                 nn.ReLU(),
                                 nn.Dropout(0.1),

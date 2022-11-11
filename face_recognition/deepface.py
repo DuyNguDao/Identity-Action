@@ -84,7 +84,7 @@ class ArcFacePyTorch:
         img = img.to(device=self.device)
         torch.cuda.empty_cache()
         import time
-        feet = self.model(img).cpu().detach().numpy()
+        feet = self.model(img).detach().cpu().numpy()
         return feet.ravel()
 
 

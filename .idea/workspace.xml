@@ -6,10 +6,24 @@
   <component name="ChangeListManager">
     <list default="true" id="99d32281-e1d6-4107-a7aa-38f1f65514d4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_stgcn/confusion_matrix_STGCN.png" beforeDir="false" afterPath="$PROJECT_DIR$/classification_stgcn/confusion_matrix_STGCN.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_stgcn/evaluate_STGCN.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_stgcn/evaluate_STGCN.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_stgcn/info_lstm.txt" beforeDir="false" afterPath="$PROJECT_DIR$/classification_stgcn/info_lstm.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_lstm/confusion_matrix.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_lstm/evaluate_LSTM.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_lstm/evaluate_LSTM.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_lstm/info_lstm.txt" beforeDir="false" afterPath="$PROJECT_DIR$/classification_lstm/info_lstm.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_lstm/models/rnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_lstm/models/rnn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_lstm/utils/load_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_lstm/utils/load_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_lstm/weights/best_skip.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_lstm/weights/best_skip_1.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_stgcn/Actionsrecognition/ActionsEstLoader.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_stgcn/Actionsrecognition/ActionsEstLoader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_stgcn/confusion_matrix_STGCN.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_stgcn/weights/tsstg-model.pth" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classification_stgcn/weights/tsstg-model_skip.pth" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/detect_video.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect_video.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face_recognition/deepface.py" beforeDir="false" afterPath="$PROJECT_DIR$/face_recognition/deepface.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/information/confusion_matrix_LSTM.png" beforeDir="false" afterPath="$PROJECT_DIR$/information/confusion_matrix_LSTM.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/information/confusion_matrix_STGCN.png" beforeDir="false" afterPath="$PROJECT_DIR$/information/confusion_matrix_STGCN.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yolov5_face/weights/yolov5s-face.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yolov7_pose/detect_pose.py" beforeDir="false" afterPath="$PROJECT_DIR$/yolov7_pose/detect_pose.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,24 +49,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/duyngu/Desktop/Project_Graduate&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;shared-indexes&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/home/duyngu/Desktop/Project_Graduate",
+    "settings.editor.selected.configurable": "shared-indexes"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/information" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/yolov7_pose/models" />
       <recent name="$PROJECT_DIR$/yolov5_face/weights" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.evaluate_STGCN">
+  <component name="RunManager" selected="Python.detect_video">
     <configuration name="create_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PROJECT_GRADUATE" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -160,11 +175,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.evaluate_STGCN" />
         <item itemvalue="Python.detect_video" />
+        <item itemvalue="Python.evaluate_LSTM" />
+        <item itemvalue="Python.evaluate_STGCN" />
         <item itemvalue="Python.create_data" />
         <item itemvalue="Python.recog_video" />
-        <item itemvalue="Python.evaluate_LSTM" />
       </list>
     </recent_temporary>
   </component>

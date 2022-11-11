@@ -51,9 +51,9 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
 
     # *************************** LOAD MODEL LSTM OR ST-GCN ************************************************
     # LSTM
-    action_model = Model(device=device, skip=True)
+    # action_model = Model(device=device, skip=True)
     # ST-GCN
-    # action_model = TSSTG(device=device, skip=True)
+    action_model = TSSTG(device=device, skip=True)
 
     # *************************** LOAD MODEL FACE RECOGNITION ************************************
     face_model = Face_Model(device=device)
@@ -171,8 +171,8 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
                     color1 = (255, 255, 0)
                     # ************************************ PREDICT ACTION ********************************
                     if len(list_kpt) == 15:
-                        action, score = action_model.predict([list_kpt], w, h, batch_size=1)
-                        # action, score = action_model.predict(list_kpt, (w, h))
+                        # action, score = action_model.predict([list_kpt], w, h, batch_size=1)
+                        action, score = action_model.predict(list_kpt, (w, h))
                     try:
                         if action[0] == "Fall Down":
                             color = (0, 0, 255)
@@ -225,7 +225,8 @@ if __name__ == '__main__':
 
     # # PATH VIDEO
     url = '/home/duyngu/Downloads/video_test/video_hanh_dong_truong_hoc.mp4'
-    # url = 'video1.avi'
+    # url = '/home/duyngu/Downloads/video_test/video2.avi'
+    # url = '/home/duyngu/Downloads/video_test/20221001153334758_7F01683RAZE9C1D.mp4'
     source = args.file_name
     cv2.namedWindow('video')
     # if run  as terminal, replace url = source

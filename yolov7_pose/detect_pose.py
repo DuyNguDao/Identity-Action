@@ -89,7 +89,7 @@ class Y7Detect:
                 if det is not None and len(det):
                     # Rescale boxes from img_size to im0 size
                     det[:, :4] = scale_coords(img.shape[2:], det[:, :4], image_rgb_shape, kpt_label=False).round()
-                    det[:, 6:] = scale_coords(img.shape[2:], det[:, 6:], image_rgb_shape, kpt_label=True, step=3).round()
+                    det[:, 6:] = scale_coords(img.shape[2:], det[:, 6:], image_rgb_shape, kpt_label=True, step=3)
                 for det_idx, (*xyxy, conf, cls) in enumerate(det[:, :6]):
                     x1 = xyxy[0].detach().cpu().data.numpy()
                     y1 = xyxy[1].detach().cpu().data.numpy()

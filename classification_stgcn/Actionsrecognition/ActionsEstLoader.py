@@ -20,12 +20,13 @@ class TSSTG(object):
     """
     def __init__(self, skip=False, device='cpu'):
         if skip:
-            weight_file = ROOT / 'weights/tsstg-model_skip.pth'
+            weight_file = ROOT / 'weights/best_skip_stgcn.pt'
         else:
             weight_file = ROOT / 'weights/tsstg-model.pth'
 
         self.graph_args = {'strategy': 'spatial'}
-        self.class_names = ['Standing', 'Stand up', 'Sitting', 'Sit down', 'Lying Down', 'Walking', 'Fall Down']
+        # self.class_names = ['Standing', 'Stand up', 'Sitting', 'Sit down', 'Lying Down', 'Walking', 'Fall Down']
+        self.class_names = ['Sit down', 'Lying Down', 'Walking', 'Stand up', 'Standing', 'Fall Down', 'Sitting']
         self.num_class = len(self.class_names)
         if device == 'cpu':
             self.device = device
