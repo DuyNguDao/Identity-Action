@@ -1,9 +1,12 @@
 """
-PROJECT HUMAN ACTION AND IDENTIFICATION RECOGNITION
+IDENTITY RECOGNITION AND APPLICATION ACTIONS FOR FALL DETECTION IN THE ELDERLY
 Member: DAO DUY NGU, LE VAN THIEN
 Mentor: PhD. TRAN THI MINH HANH
 Time: 21/10/2022
+contact: ddngu0110@gmail.com, ngocthien3920@gmail.com
 """
+
+# ************************************ IMPORT LIBRARY ********************************************
 import cv2
 from face_recognition.face import Face_Model
 from yolov7_pose.detect_pose import Y7Detect, draw_kpts, draw_boxes
@@ -18,7 +21,8 @@ import argparse
 from classification_lstm.utils.load_model import Model
 from classification_stgcn.Actionsrecognition.ActionsEstLoader import TSSTG
 import random
-from collections import deque
+
+# *********************************** CONFIG PATH AND RESET CUDA *************************
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]
@@ -27,6 +31,8 @@ WEIGTHS = ROOT
 torch.cuda.empty_cache()
 torch.cuda.reset_peak_memory_stats()
 print(torch.cuda.is_available())
+
+# *********************************** PROCESSING AND RUN *********************************
 
 
 def compute_distance(nose_body, nose_face):
@@ -218,19 +224,15 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Detect Face On Video')
     parser.add_argument("-fn", "--file_name", help="video file name or rtsp", default='', type=str)
-    parser.add_argument("-op", "--option", help="if save video then choice option = 1", default=True, type=bool)
+    parser.add_argument("-op", "--option", help="if save video then choice option is True or False", default=True, type=bool)
     parser.add_argument("-o", "--output", help="path to output video file", default='recog_recording.avi', type=str)
     parser.add_argument("-f", "--fps", default=30, help="FPS of output video", type=int)
     args = parser.parse_args()
 
-    # # PATH VIDEO
-    url = '/home/duyngu/Downloads/video_test/video_hanh_dong_truong_hoc.mp4'
-    # url = '/home/duyngu/Downloads/video_test/video2.avi'
-    # url = '/home/duyngu/Downloads/video_test/20221001153334758_7F01683RAZE9C1D.mp4'
     source = args.file_name
     cv2.namedWindow('video')
     # if run  as terminal, replace url = source
-    detect_video(url_video=url, flag_save=args.option, fps=args.fps, name_video=args.output)
+    detect_video(url_video=source, flag_save=args.option, fps=args.fps, name_video=args.output)
 
 
 

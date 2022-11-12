@@ -29,17 +29,25 @@ class Y7Detect:
         params weights: 'yolov7.pt'
         """
         self.weights = weights
-        self.model_image_size = 640
-        self.conf_threshold = 0.05
+        self.model_image_size = 960
+        self.conf_threshold = 0.20
         self.iou_threshold = 0.45
         with torch.no_grad():
             self.model, self.device = self.load_model(use_cuda=True)
             print("Model detect pose: {}, device: {}".format(weights.split('/')[-1], self.device))
             self.model.to(device=self.device)
-            self.model.eval()
+            self.model.float().eval()
+            # pp = 0
+            # for p in list(self.model.parameters()):
+            #     nn = 1
+            #     for s in list(p.size()):
+            #         nn = nn * s
+            #     pp += nn
+            # print(pp)
+
             self.stride = int(self.model.stride.max())  # model stride
             self.image_size = check_img_size(self.model_image_size, s=self.stride)
-            self.half = False
+            self.half = torch.cuda.is_available()
             if self.half:
                 self.model.half()
             self.class_names = self.model.module.names if hasattr(self.model, 'module') else self.model.names
@@ -59,7 +67,7 @@ class Y7Detect:
         return model, device
 
     def preprocess_image(self, image_bgr):
-        img = letterbox(image_bgr.copy(), self.image_size, stride=self.stride, auto=False)[0]
+        img = letterbox(image_bgr.copy(), self.image_size, stride=self.stride, auto=True)[0]
         # Convert
         img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
         img = np.ascontiguousarray(img)

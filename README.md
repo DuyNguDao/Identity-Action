@@ -1,4 +1,4 @@
-# IDENTITY AND HUMAN ACTION RECOGNITION
+# IDENTITY AND APPLICATION ACTIONS FOR FALL DETECTION IN THE ELDERLY
 ## Introduction
 This is project of identity recognition and human action that is widely applied in life such as: falls in the elderly, stroke patients or behavior recognition in children
 ## video demo
@@ -31,9 +31,15 @@ pip install -r requirements.txt
 model yolov7 pose state dict:
 [yolov7_w6_pose](https://drive.google.com/file/d/1z8WVeqbjUKeibV0ZRDL5tBac9Ry8AkB3/view?usp=sharing)
 ### Quick start
+#### start and config url
 ```
-python detect_video.py
+python run_video.py
 ```
+#### start with terminal
+```
+python detect_video.py --fn <url if is video or 0>
+```
+
 ## Datasets and result model training
 ### Dataset human action
 [Human action](https://www.kaggle.com/datasets/ngoduy/dataset-video-for-human-action-recognition)
@@ -63,6 +69,9 @@ python detect_video.py
 
 ![](./information/confusion_matrix_WIDERFACE_RetinaFace.png)
 #### Result compare: Accuracy, Precision, Recall, Time processing
+Config Computer:
++ CPU: AMD Ryzen 7 4800H với 16G RAM DDR4
++ GPU: NVIDIA GeForce GTX 1650 với 4G RAM DDR6
 
 ![](./information/table_compare_face_detect.png)
 
@@ -97,8 +106,22 @@ python detect_video.py
 ### Methods compare
 Accuracy, Precision, Recall, F1-score, Time processing
 
+Config Computer:
++ CPU: AMD Ryzen 7 4800H với 16G RAM DDR4
++ GPU: NVIDIA GeForce GTX 1650 với 4G RAM DDR6
+
 ![](./information/table_compare_action.png)
 
+### Compare ST-GCN + YOLOv7-Pose and ST-GCN + YOLOv3 + Alphapose
+Config Computer:
++ CPU: Intel(R) Core(TM) i5-8300H CPU @ 2.30GHz
++ GPU: GEFORCE RTX 1050 với RAM 4G
+
+![](./information/table_compare_2_method.png)
+
++ Confusion matrix of ST-GCN with skeleton data export from yolov3 + alphapose
+
+![](./information/confusion_matrix_yolov3.png)
 
 ### Training
 #### Human action
@@ -113,7 +136,7 @@ Accuracy, Precision, Recall, F1-score, Time processing
 ## Contact
 ```
 Address: Da Nang University of Science and Technology
-Email: 106180036@sv1.dut.udn.vn
+Email: ddngu0110@gmail.com, ngocthien3920@gmail.com
 ```
 ## Acknowledgements
 * https://github.com/deepinsight/insightface.git

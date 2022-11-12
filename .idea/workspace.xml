@@ -7,22 +7,8 @@
     <list default="true" id="99d32281-e1d6-4107-a7aa-38f1f65514d4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_lstm/confusion_matrix.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_lstm/evaluate_LSTM.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_lstm/evaluate_LSTM.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_lstm/info_lstm.txt" beforeDir="false" afterPath="$PROJECT_DIR$/classification_lstm/info_lstm.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_lstm/models/rnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_lstm/models/rnn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_lstm/utils/load_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_lstm/utils/load_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_lstm/weights/best_skip.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_lstm/weights/best_skip_1.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_stgcn/Actionsrecognition/ActionsEstLoader.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_stgcn/Actionsrecognition/ActionsEstLoader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_stgcn/confusion_matrix_STGCN.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_stgcn/weights/tsstg-model.pth" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_stgcn/weights/tsstg-model_skip.pth" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/detect_video.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect_video.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_recognition/deepface.py" beforeDir="false" afterPath="$PROJECT_DIR$/face_recognition/deepface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/information/confusion_matrix_LSTM.png" beforeDir="false" afterPath="$PROJECT_DIR$/information/confusion_matrix_LSTM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/information/confusion_matrix_STGCN.png" beforeDir="false" afterPath="$PROJECT_DIR$/information/confusion_matrix_STGCN.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yolov5_face/weights/yolov5s-face.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/information/table_compare_action.png" beforeDir="false" afterPath="$PROJECT_DIR$/information/table_compare_action.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yolov7_pose/detect_pose.py" beforeDir="false" afterPath="$PROJECT_DIR$/yolov7_pose/detect_pose.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +39,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/home/duyngu/Desktop/Project_Graduate",
+    "last_opened_file_path": "/home/duyngu/Desktop/yolov7-pose",
     "settings.editor.selected.configurable": "shared-indexes"
   }
 }]]></component>
@@ -67,7 +53,7 @@
       <recent name="$PROJECT_DIR$/yolov5_face/weights" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.detect_video">
+  <component name="RunManager" selected="Python.run_video">
     <configuration name="create_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PROJECT_GRADUATE" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -152,7 +138,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="recog_video" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="run_video" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PROJECT_GRADUATE" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -164,7 +150,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/recog_video.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/run_video.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -175,11 +161,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.run_video" />
         <item itemvalue="Python.detect_video" />
         <item itemvalue="Python.evaluate_LSTM" />
         <item itemvalue="Python.evaluate_STGCN" />
         <item itemvalue="Python.create_data" />
-        <item itemvalue="Python.recog_video" />
       </list>
     </recent_temporary>
   </component>
