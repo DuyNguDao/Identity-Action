@@ -6,6 +6,8 @@ This is project of identity recognition and human action that is widely applied 
 ## System Diagram
 
 ![](./information/System_diagram.png)
+## App
+![](./information/app.png)
 ## Dev
 ```
 Member:
@@ -38,6 +40,14 @@ python run_video.py
 #### start with terminal
 ```
 python detect_video.py --fn <url if is video or 0>
+```
+### Run App
+note:
+```
+pip install opencv-python-headless==4.5.5.64
+```
+```
+python app.py
 ```
 
 ## Datasets and result model training

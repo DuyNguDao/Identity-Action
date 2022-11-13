@@ -41,7 +41,7 @@ def run(url=None, flag_save=False, fps=30, name_video="recording_action.avi"):
             rate_max = max(h_norm / h, w_norm / w)
             frame = cv2.resize(frame, (int(rate_max * w), int(rate_max * h)), interpolation=cv2.INTER_AREA)
             h, w, _ = frame.shape
-        frame = model.processing(frame, skip)
+        frame, info = model.processing(frame, skip)
         # ******************************************** SKIP ONE FRAME *********************************
         skip = not skip
         # ******************************************** SHOW *******************************************

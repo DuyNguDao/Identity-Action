@@ -47,23 +47,27 @@ class ActionAndIdentityRecognition:
         self.face_model = Face_Model(device=device)
 
         # **************************** INIT TRACKING *************************************************
-        self.tracker = StrongSORT(device=device, max_age=30, n_init=3, max_iou_distance=0.7)  # deep sort
-        # self.tracker = SORT(max_age=30, n_init=3, max_iou_distance=0.7)  # sort
+        # self.tracker = StrongSORT(device=device, max_age=30, n_init=3, max_iou_distance=0.7)  # deep sort
+        self.tracker = SORT(max_age=30, n_init=3, max_iou_distance=0.7)  # sort
 
         # ******************************** INIT DATA ********************************************
         self.memory = {}  # memory contain identification human action
+        self.memory1 = {}  # memory contain id, face
         self.turn_detect_face = True  # flag turn on, off face recognition
         self.data = None  # buffer data for skip when tracking
         self.bbox = None  # buffer data for skip when skeleton detection
+        self.face_unkhow = cv2.imread('icon/unknown_person.jpg')
+        self.face_unkhow = cv2.resize(self.face_unkhow, (112, 112))
 
     def processing(self, frame, skip=True):
         h, w, _ = frame.shape
+        info = {}
         if skip:
             # **************************** SKELETON DETECTION *************************************
             bbox, score, kpts = self.pose_detection(frame)
             self.bbox = bbox
         # ******************************** FACE RECOGNITION ***************************************
-        face, frame = self.face_recognition(frame)
+        face, frame, id_fc = self.face_recognition(frame)
         # ***************************** TRACKING **************************************************
         if len(self.bbox) != 0:
             if skip:
@@ -78,15 +82,18 @@ class ActionAndIdentityRecognition:
                     if str(track_id) not in self.memory:
                         if len(list_face) == 0:
                             self.memory.update({str(track_id): ['Unknown', 0]})
+                            self.memory1.update({str(track_id): ['None', self.face_unkhow]})
                             self.turn_detect_face = True
                         else:
                             d_min, pos = self.compute_distance(np.array(kpt[0]), list_face[:, 2, :])
                             w_min = np.sqrt(np.sum((list_face[pos, 1, :] - list_face[pos, 0, :]) ** 2, axis=0))
                             if d_min > w_min:
                                 self.memory.update({str(track_id): ['Unknown', 0]})
+                                self.memory1.update({str(track_id): ['None', self.face_unkhow]})
                                 self.turn_detect_face = True
                             else:
                                 self.memory.update({str(track_id): [list(face.keys())[pos], 0]})
+                                self.memory1.update({str(track_id): list(id_fc.values())[pos]})
                     else:
                         self.memory.update({str(track_id): [self.memory[str(track_id)][0], 0]})
                         if self.memory[str(track_id)][0] == 'Unknown':
@@ -96,6 +103,7 @@ class ActionAndIdentityRecognition:
                                 w_min = np.sqrt(np.sum((list_face[pos, 1, :] - list_face[pos, 0, :]) ** 2, axis=0))
                                 if d_min <= w_min:
                                     self.memory.update({str(track_id): [list(face.keys())[pos], 0]})
+                                    self.memory1.update({str(track_id): list(id_fc.values())[pos]})
                                     self.turn_detect_face = False
                                 else:
                                     self.turn_detect_face = True
@@ -110,7 +118,11 @@ class ActionAndIdentityRecognition:
                         # LSTM
                         # action, score = action_model.predict([list_kpt], w, h, batch_size=1)
                         # ST-GCN
+                        torch.cuda.reset_peak_memory_stats()
                         action, score = self.action_model.predict(list_kpt, (w, h))
+                        if action[0] == "Fall Down":
+                            info.update({'id': self.memory1[str(track_id)][0], 'image': self.memory1[str(track_id)][1],
+                                         'name': name, 'action': action[0]})
                     frame = self.draw_frame(frame, box, action, name, track_id)
 
             # ************************ UPDATE COUNT MEMORY WITH TRACK ID ******************************
@@ -118,27 +130,29 @@ class ActionAndIdentityRecognition:
             for key in keys:
                 if self.memory[key][1] > 30:
                     del self.memory[key]
+                    del self.memory1[key]
                     continue
                 self.memory.update({key: [self.memory[key][0], self.memory[key][1] + 1]})
-        return frame
+        return frame, info
 
     def pose_detection(self, frame):
         h, w, _ = frame.shape
         bbox, label, score, label_id, kpts = self.y7_pose.predict(frame)
         # ************************** CHECK AND REMOVE NOISE SKELETON ****************************
-        # id_hold = []
-        # for i, box in enumerate(bbox):
-        #     # check and remove bbox
-        #     if box[0] < 10 or box[1] < 10 or box[2] > w - 10 or box[3] > h - 10:
-        #         id_hold.append(False)
-        #         continue
-        #     id_hold.append(True)
+        id_hold = []
+        for i, box in enumerate(bbox):
+            # check and remove bbox
+            if box[0] < 10 or box[1] < 10 or box[2] > w - 10 or box[3] > h - 10:
+                id_hold.append(False)
+                continue
+            id_hold.append(True)
         bbox, score, kpts = np.array(bbox), np.array(score), np.array(kpts)
-        # bbox, score, kpts = bbox[id_hold], score[id_hold], kpts[id_hold]
+        bbox, score, kpts = bbox[id_hold], score[id_hold], kpts[id_hold]
         return bbox, score, kpts
 
     def face_recognition(self, frame):
         face = {}
+        info = {}
         h, w, _ = frame.shape
         if self.turn_detect_face:
             # ***************************** FACE DETECTION **********************************
@@ -149,12 +163,14 @@ class ActionAndIdentityRecognition:
                     continue
                 # *************************** FACE RECOGNITION ******************************
                 feet = self.face_model.face_encoding(frame, kps=np.array(landmark_f[idx]))
-                name = self.face_model.face_compare(feet, threshold=0.3)
+                data = self.face_model.face_compare(feet, threshold=0.3)
+                name = data[1]
                 face.update({name: landmark_f[idx]})
+                info.update({name: [data[0], data[2]]})
                 draw_result(frame, box, '', score_f[idx], landmark_f[idx])
             self.turn_detect_face = False
         cv2.rectangle(frame, (10, 10), (w - 10, h - 10), (0, 255, 0), 2)
-        return face, frame
+        return face, frame, info
 
     def draw_frame(self, frame, box, action, name, track_id):
         color = (0, 255, 255)

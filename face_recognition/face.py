@@ -7,6 +7,7 @@ from yolov5_face.detect_face import Y5DetectFace, draw_result
 from pathlib import Path
 from face_recognition.deepface import ArcFacePyTorch, Face
 from tqdm import tqdm
+from database.interface_sql import get_all_face, get_all_action, add_face, add_action
 
 
 FILE = Path(__file__).resolve()
@@ -21,54 +22,39 @@ class Face_Model():
         self.Face_Recognition = ArcFacePyTorch(model_file='face_recognition/Weight/backbone.pth', net='r18', device=device)
         self.Face_Detection = Y5DetectFace(weights='yolov5_face/weights/yolov5_face.pt')
         self.database = self.load_data()
-        self.data_feet = list(self.database.values())
-        self.name_id = list(self.database.keys())
+        self.data_feet = self.database['embed']
+        self.name_id = self.database['name']
 
     def detect(self, img):
         return self.Face_Detection.predict(img)
 
-    def create_data(self, list_image, name='unknow'):
-        if name == 'unknow':
-            name = input("Enter Name")
+    def create_data(self, list_image, name='unknow', id_face='DEV03'):
         feets = []
+        face = cv2.imread('icon/unknown_person.jpg')
+        face = cv2.resize(face, (112, 112))
+        if len(list_image) > 300:
+            list_image = list_image[:300]
         for i in tqdm(range(len(list_image)), desc='Processing data'):
             image = list_image[i]
             try:
                 bbox, label, label_id, score, kpss = self.Face_Detection.predict(image)
                 feet = self.face_encoding(image, kps=np.array(kpss[0]))
                 feets.append(feet)
+                if i == 5:
+                    face = cv2.resize(image[bbox[0][1]:bbox[0][3], bbox[0][0]:bbox[0][2]], (112, 112))
             except:
                 continue
         feets = np.sum(np.array(feets), axis=0) / len(feets)
         embed = np.array(feets, dtype='float')
-        data = self.load_data()
-        data.update({name: embed})
-        self.data_feet = list(data.values())
-        self.name_id = list(data.keys())
-        self.save_data(data)
+        add_face((id_face, name, face, embed), 'faceid')
+        # update data
+        self.database = self.load_data()
+        self.data_feet = self.database['embed']
+        self.name_id = self.database['name']
 
     def load_data(self):
-        path = self.root_path + '/database.pkl'
-        if os.path.exists(path): 
-            with open(path, 'rb') as f: 
-                data = pickle.load(f)
-            f.close()
-            return data
-        else: 
-            with open(path, 'wb') as file:
-                pickle.dump({}, file, protocol=pickle.HIGHEST_PROTOCOL)
-            file.close()
-            with open(path, 'rb') as f:
-                data = pickle.load(f)
-            file.close()
-            return data
-
-    def save_data(self, data):
-        path = self.root_path + '/database.pkl'
-        if os.path.exists(path):
-            with open(path, 'wb') as file:
-                pickle.dump(data, file, protocol=pickle.HIGHEST_PROTOCOL)
-            file.close()
+        id_face, fullname, face, embed = get_all_face('faceid')
+        return {'id': id_face, 'name': fullname, 'face': face, 'embed': embed}
 
     def face_encoding(self, image, kps):
         face_box_class = {'kps':  kps}
@@ -80,9 +66,12 @@ class Face_Model():
         try:
             sim_max, idx = self.Face_Recognition.compute_sim(feet, np.array(self.data_feet, dtype='float32'))
             if sim_max > threshold:
-                return self.name_id[idx]
-            return "Unknown"
+                return [self.database['id'][idx], self.name_id[idx], self.database['face'][idx]]
+            face = cv2.imread('icon/unknown_person.jpg')
+            face = cv2.resize(face, (112, 112))
+            return ['None', "Unknown", face]
         except:
-            return "Unknown"
-
+            face = cv2.imread('icon/unknown_person.jpg')
+            face = cv2.resize(face, (112, 112))
+            return ['None', "Unknown", face]
 
