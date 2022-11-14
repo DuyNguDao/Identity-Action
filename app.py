@@ -59,10 +59,10 @@ class ActionThread(QThread):
             if not ret:
                 break
             h, w, _ = frame.shape
-            if h > 1270 or w > w_norm:
-                rate_max = max(h_norm / h, w_norm / w)
-                frame = cv2.resize(frame, (int(rate_max * w), int(rate_max * h)), interpolation=cv2.INTER_AREA)
-                h, w, _ = frame.shape
+            # convert size to 1280 - x
+            rate = w_norm / w
+            frame = cv2.resize(frame, (int(rate * w), int(rate * h)), interpolation=cv2.INTER_AREA)
+            h, w, _ = frame.shape
             frame, info = self.model.processing(frame, skip)
             skip = not skip
             fps = int(1 / (time.time() - start))
@@ -94,10 +94,10 @@ class AddFaceThread(QThread):
             if not ret:
                 break
             h, w, _ = frame.shape
-            if h > 1270 or w > w_norm:
-                rate_max = max(h_norm / h, w_norm / w)
-                frame = cv2.resize(frame, (int(rate_max * w), int(rate_max * h)), interpolation=cv2.INTER_AREA)
-                h, w, _ = frame.shape
+            # resize 1280, x
+            rate = w_norm / w
+            frame = cv2.resize(frame, (int(rate * w), int(rate * h)), interpolation=cv2.INTER_AREA)
+            h, w, _ = frame.shape
             self.change_pixmap_signal.emit(frame)
         self.cap.release()
 

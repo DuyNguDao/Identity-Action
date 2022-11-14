@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="99d32281-e1d6-4107-a7aa-38f1f65514d4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database/database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_face.py" beforeDir="false" afterPath="$PROJECT_DIR$/get_face.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +54,7 @@
       <recent name="$PROJECT_DIR$/yolov5_face/weights" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.run_video">
+  <component name="RunManager" selected="Python.app">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PROJECT_GRADUATE" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -159,8 +162,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.run_video" />
         <item itemvalue="Python.app" />
+        <item itemvalue="Python.run_video" />
         <item itemvalue="Python.interface_sql" />
         <item itemvalue="Python.face" />
         <item itemvalue="Python.detect_video" />

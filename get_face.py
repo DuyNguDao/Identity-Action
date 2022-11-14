@@ -11,6 +11,7 @@ from face_recognition.face import Face_Model
 
 face_model = Face_Model()
 cap = cv2.VideoCapture(0)
+id_name = input("Enter ID: ")
 name = input("Enter Name: ")
 list_image = []
 print("\t\t\tSTART RECORD FACE\t\t\t")
@@ -57,13 +58,14 @@ while True:
         for idx, box in enumerate(bbox):
             draw_result(frame, box, '', score[idx], landmark[idx])
     elif state == 'Stop':
-        face_model.create_data(list_image, name)
+        face_model.create_data(list_image, name, id_name)
         state = 'Normal'
     elif state == 'Record again':
         list_image.clear()
         state = 'Normal'
     elif state == 'New ID':
         list_image.clear()
+        id_name = input("Enter ID: ")
         name = input("Enter Name: ")
         state = 'Normal'
 
