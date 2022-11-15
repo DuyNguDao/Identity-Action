@@ -6,6 +6,8 @@ Time: 12/11/2022
 contact: ddngu0110@gmail.com, ngocthien3920@gmail.com
 """
 import sys
+import threading
+
 import PyQt5
 import cv2
 import time
@@ -24,7 +26,7 @@ from UI.show_history import Ui_Form as Show_history
 from human_action_and_identity import ActionAndIdentityRecognition
 from yolov5_face.detect_face import draw_result
 from database.interface_sql import *
-
+from threading import Thread
 
 use_camera = 1  # tab 1 is allow using camera
 camera_id = 0
@@ -277,7 +279,10 @@ class AddPeople(QWidget, Tab_2):
 
     def recog(self):
         if self.name.text().strip() != '':
-            self.recog_flag = True
+            ret = QMessageBox.question(self, 'confirm', 'Do you want to recording?\n(Yes) or (No)',
+                                       QMessageBox.No | QMessageBox.Yes)
+            if ret == QMessageBox.Yes:
+                self.recog_flag = True
         else:
             QMessageBox.warning(self, 'Warning!', 'Fill name first')
 
@@ -294,8 +299,10 @@ class AddPeople(QWidget, Tab_2):
                 id = self.id.text()
                 self.id.setText('')
                 self.name.setText('')
-                self.face_model.create_data(self.list_image, name, id)
-                QMessageBox.warning(self, 'Completed!', '')
+                t = Thread(target=self.face_model.create_data, args=(self.list_image, name, id))
+                t.start()
+                # self.face_model.create_data(self.list_image, name, id)
+                QMessageBox.information(self, 'Information', 'Completed!')
                 self.list_image = []
             else:
                 pass
@@ -366,11 +373,10 @@ class ShowDatabase(QWidget, Show_database):
                 fix = []
                 for col in range(self.table_database.columnCount()):
                     if col == 2:
-                        fix.append(int(self.table_database.item(row, col).text()))
                         continue
                     fix.append(self.table_database.item(row, col).text())
                 update_info(tuple(fix))
-            QMessageBox.warning(self, "Save successfully", "Completed.")
+            QMessageBox.information(self, "Save successfully", "Completed.")
         self.show_database()
 
     def convert_cv_qt(self, cv_img, w_screen, h_screen):
@@ -392,7 +398,7 @@ class ShowDatabase(QWidget, Show_database):
             code_id = self.table_database.item(x, 0).text()
             delete_face(code_id)
             self.show_database()
-            QMessageBox.warning(self, "Delete successfully", "Completed.")
+            QMessageBox.information(self, "Delete successfully", "Completed.")
 
 
 class ShowHistory(QWidget, Show_history):
@@ -402,6 +408,7 @@ class ShowHistory(QWidget, Show_history):
         self.setWindowTitle("Database")
         self.table_database.horizontalHeader().setDefaultSectionSize(224)
         self.table_database.verticalHeader().setDefaultSectionSize(224)
+        self.delete_history.clicked.connect(self.delete_all)
         font = QFont()
         font.setPointSize(15)
         self.table_database.setFont(font)
@@ -420,6 +427,15 @@ class ShowHistory(QWidget, Show_history):
                     self.table_database.setCellWidget(idx, index, image)
                 else:
                     self.table_database.setItem(idx, index, QTableWidgetItem(str(header)))
+
+    def delete_all(self):
+        ret = QMessageBox.question(self, 'Warning',
+                                   "Are you sure you want to delete? \n Ok (Yes) or No (No)",
+                                   QMessageBox.No | QMessageBox.Yes)
+        if ret == QMessageBox.Yes:
+            delete_all_task('action_data')
+            self.show_history()
+            QMessageBox.information(self, "Delete successfully", "Completed.")
 
     def convert_cv_qt(self, cv_img, w_screen, h_screen):
         """Convert from an opencv image to QPixmap"""

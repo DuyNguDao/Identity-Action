@@ -31,22 +31,7 @@
   <property name="styleSheet">
    <string notr="true">background-color: rgb(24, 23, 61)</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <property name="spacing">
-    <number>0</number>
-   </property>
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QFrame" name="frame">
      <property name="sizePolicy">
@@ -252,6 +237,51 @@ color: rgb(0, 0, 0);</string>
          </property>
         </column>
        </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QPushButton" name="delete_history">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>150</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+border-color: rgb(255 ,255,255);
+font: 75 15pt &quot;Ubuntu Condensed&quot;;
+background-color: rgb(136, 138, 133);
+border-width : 1.5px;
+border-style:inset;
+border-radius: 8px;
+padding: 0 5px;
+color: rgb(255, 255, 255);
+}
+QPushButton:pressed{
+	background-color: rgb(32, 74, 135);
+
+}</string>
+          </property>
+          <property name="text">
+           <string>DELETE ALL</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3"/>

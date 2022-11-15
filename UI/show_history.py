@@ -19,10 +19,8 @@ class Ui_Form(object):
         Form.setMinimumSize(QtCore.QSize(1366, 768))
         Form.setMaximumSize(QtCore.QSize(1920, 1080))
         Form.setStyleSheet("background-color: rgb(24, 23, 61)")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout.setSpacing(0)
-        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(Form)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.frame = QtWidgets.QFrame(Form)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -118,10 +116,37 @@ class Ui_Form(object):
         self.table_database.verticalHeader().setSortIndicatorShown(True)
         self.table_database.verticalHeader().setStretchLastSection(False)
         self.verticalLayout.addWidget(self.table_database)
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.delete_history = QtWidgets.QPushButton(self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.delete_history.sizePolicy().hasHeightForWidth())
+        self.delete_history.setSizePolicy(sizePolicy)
+        self.delete_history.setMinimumSize(QtCore.QSize(150, 50))
+        self.delete_history.setMaximumSize(QtCore.QSize(150, 50))
+        self.delete_history.setStyleSheet("QPushButton{\n"
+"border-color: rgb(255 ,255,255);\n"
+"font: 75 15pt \"Ubuntu Condensed\";\n"
+"background-color: rgb(136, 138, 133);\n"
+"border-width : 1.5px;\n"
+"border-style:inset;\n"
+"border-radius: 8px;\n"
+"padding: 0 5px;\n"
+"color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"    background-color: rgb(32, 74, 135);\n"
+"\n"
+"}")
+        self.delete_history.setObjectName("delete_history")
+        self.horizontalLayout_4.addWidget(self.delete_history)
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.verticalLayout.addLayout(self.horizontalLayout_3)
-        self.horizontalLayout.addWidget(self.frame)
+        self.verticalLayout_2.addWidget(self.frame)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -141,3 +166,4 @@ class Ui_Form(object):
         item.setText(_translate("Form", "Action"))
         item = self.table_database.horizontalHeaderItem(4)
         item.setText(_translate("Form", "Time"))
+        self.delete_history.setText(_translate("Form", "DELETE ALL"))

@@ -122,7 +122,7 @@ def get_all_action(name_table='action_data'):
         return id_face, fullname, face, action, time_ac
 
 
-def update_info(data_change: tuple, name_table='faceid'):
+def update_info(data_change, name_table='faceid'):
     """
     Function: Again update information of face
     Args:
@@ -137,14 +137,14 @@ def update_info(data_change: tuple, name_table='faceid'):
         con = sqlite.connect(path)
         cursor = con.cursor()
         print("Connected to SQLite")
-        sql_update_query = f"""UPDATE {name_table} SET fullname = ? Where id = {data_change[0]}"""
-        cursor.execute(sql_update_query, (data_change[1:5]))
+        sql_update_query = f"""UPDATE {name_table} SET fullname = ? Where id = ?"""
+        cursor.execute(sql_update_query, (data_change[1], data_change[0]))
         con.commit()
         print("Record update successfully")
         cursor.close()
 
     except sqlite.Error as error:
-        print("Failed to update reocord from a sqlite table", error)
+        print("Failed to update record from a sqlite table", error)
     finally:
         if con:
             con.close()
@@ -170,7 +170,24 @@ def delete_face(code_id: str, name_table='faceid'):
         cursor.close()
 
     except sqlite.Error as error:
-        print("Failed to delete reocord from a sqlite table", error)
+        print("Failed to delete record from a sqlite table", error)
+    finally:
+        if con:
+            con.close()
+            print("sqlite connection is closed")
+
+
+def delete_all_task(name_table='action_data'):
+    try:
+        sql = f"""DELETE FROM {name_table}"""
+        con = sqlite.connect(path)
+        cursor = con.cursor()
+        cursor.execute(sql)
+        con.commit()
+        print('Delete successfully.')
+        cursor.close()
+    except sqlite.Error as error:
+        print('Failed to delete from a sqlite table', error)
     finally:
         if con:
             con.close()
@@ -207,8 +224,8 @@ def add_action(data_tuple, name_table='action_data'):
 
 if __name__ == '__main__':
     # create database for tab employee
-    create_database('faceid')
-    create_database1('action_data')
+    # create_database('faceid')
+    # create_database1('action_data')
     # # add info
     # embed = []
     # a = np.ones((1, 512))[0].tolist()
@@ -225,7 +242,8 @@ if __name__ == '__main__':
     # print(data)
     # print(data)
     # # change info
-    # update_info(('106190023', 'Nguyen Van C', 1, 'DEV', 'AI'))
+    # update_info(('DEV01', 'Dao Duy Tu'))
+    delete_all_task()
     # data = get_all_employee('employee')
     # print(data)
     # insert_timekeeping('DEV02', 'Dao Duy Ngu')
