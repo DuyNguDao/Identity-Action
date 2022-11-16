@@ -34,7 +34,7 @@ def create_database1(name_table):
     with con:
         cur = con.cursor()
         cur.execute(f"DROP TABLE IF EXISTS {name_table}")
-        cur.execute(f"CREATE TABLE {name_table}(id TEXT, fullname TEXT, face BLOB, action TEXT, time TEXT)")
+        cur.execute(f"CREATE TABLE {name_table}(id TEXT, fullname TEXT, face BLOB, action TEXT, image BLOB, time TEXT)")
         cur.close()
 
 
@@ -108,18 +108,21 @@ def get_all_action(name_table='action_data'):
         cur.execute(f"SELECT * FROM {name_table}")
         # get data
         rows = cur.fetchall()
-        id_face, fullname, face, action, time_ac = [], [], [], [], []
+        id_face, fullname, face, image_fd, action, time_ac = [], [], [], [], [], []
         for id, row in enumerate(rows):
             row = list(row)
             # convert image
-            image = np.frombuffer(row[len(row)-3], dtype='uint8')
+            faceid = np.frombuffer(row[2], dtype='uint8')
+            faceid = faceid.reshape(112, 112, 3)
+            image = np.frombuffer(row[4], dtype='uint8')
             image = image.reshape(112, 112, 3)
+            image_fd.append(image)
             id_face.append(row[0])
             fullname.append(row[1])
-            face.append(image)
+            face.append(faceid)
             action.append(row[3])
-            time_ac.append(row[4])
-        return id_face, fullname, face, action, time_ac
+            time_ac.append(row[5])
+        return id_face, fullname, face, action, image_fd, time_ac
 
 
 def update_info(data_change, name_table='faceid'):
@@ -208,7 +211,7 @@ def add_action(data_tuple, name_table='action_data'):
         cursor = con.cursor()
         # print("Connected to SQLite")
         sqlite_insert_blob_query = f""" INSERT INTO {name_table}
-        (id, fullname, face, action, time) VALUES (?, ?, ?, ?, ?)"""
+        (id, fullname, face, action, image, time) VALUES (?, ?, ?, ?, ?, ?)"""
         cursor.execute(sqlite_insert_blob_query, data_tuple)
         con.commit()
         # print("Data inserted successfully into a table")
@@ -232,9 +235,11 @@ if __name__ == '__main__':
     # b = np.zeros((1, 512))[0].tolist()
     # embed = np.array(b, dtype='float')
     # face = np.ones((112, 112, 3), dtype='uint8')
-    # add_face(('DEV01', 'Dao Duy Ngu', face, embed), 'faceid')
-    # add_employee(('DEV02', 'Nguyen Vu Hoai Duy', 1, 'Dev', 'AI', embed), 'employee')
-    # add_employee(('DEV03', 'Tran Chi Cuong', 0, 'Dev', 'AI', embed), 'employee')
+    # image = np.ones((112, 330, 3), dtype='uint8')
+    # # add_face(('DEV01', 'Dao Duy Ngu', face, embed), 'faceid')
+    # add_action(('DEV01', 'Tran Chi Cuong', face, 'fall down', image, '112|330|3', "12:20:43"))
+    a = get_all_action()
+    print(a[-1])
     # # delete employee
     # delete_employee('DEV01')
     # # get employee
@@ -243,7 +248,7 @@ if __name__ == '__main__':
     # print(data)
     # # change info
     # update_info(('DEV01', 'Dao Duy Tu'))
-    delete_all_task()
+    # delete_all_task()
     # data = get_all_employee('employee')
     # print(data)
     # insert_timekeeping('DEV02', 'Dao Duy Ngu')

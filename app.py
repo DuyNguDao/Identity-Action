@@ -28,13 +28,25 @@ from yolov5_face.detect_face import draw_result
 from database.interface_sql import *
 from threading import Thread
 
-use_camera = 1  # tab 1 is allow using camera
+# ************************************ RESET EMPTY CACHE CUDA ********************************************
+import torch, gc
+gc.collect()
+torch.cuda.empty_cache()
+# ********************************************************************************************************
+
+# *********************************** CONFIG DATA ********************************************************
+
+use_camera = 1
 camera_id = 0
 url = 0
 thread_1_running = False
 width = 1536
 height = 864
+
+# LOAD MODEL
 model_action = ActionAndIdentityRecognition()
+
+# *********************************************************************************************************
 
 
 def norm_size(w, h):
@@ -70,7 +82,9 @@ class ActionThread(QThread):
             if skip:
                 fps = int(1 / (time.time() - start))*2
             skip = not skip
+            now = datetime.now()
             cv2.putText(frame, 'FPS:' + str(fps), (0, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
+            cv2.putText(frame, now.strftime('%a %H:%M:%S'), (w-120, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
             self.change_pixmap_signal.emit(frame)
             self.change_information_signal.emit(info)
         self.cap.release()
@@ -432,7 +446,7 @@ class ShowHistory(QWidget, Show_history):
         self.table_database.setRowCount(len(data_face[0]))
         for index, data in enumerate(data_face):
             for idx, header in enumerate(data):
-                if index == 2:
+                if index == 2 or index == 4:
                     image = QLabel("")
                     image.setScaledContents(True)
                     image.setPixmap(self.convert_cv_qt(header, 224, 224))

@@ -9,6 +9,9 @@ contact: ddngu0110@gmail.com, ngocthien3920@gmail.com
 import cv2
 from human_action_and_identity import ActionAndIdentityRecognition
 import time
+import torch, gc
+gc.collect()
+torch.cuda.empty_cache()
 
 
 def run(url=None, flag_save=False, fps=30, name_video="recording_action.avi"):

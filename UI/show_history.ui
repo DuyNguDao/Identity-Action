@@ -223,6 +223,21 @@ color: rgb(0, 0, 0);</string>
         </column>
         <column>
          <property name="text">
+          <string>Image</string>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="textAlignment">
+          <set>AlignCenter</set>
+         </property>
+        </column>
+        <column>
+         <property name="text">
           <string>Time</string>
          </property>
          <property name="font">

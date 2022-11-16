@@ -20,7 +20,7 @@ class TSSTG(object):
     """
     def __init__(self, skip=False, device='cpu'):
         if skip:
-            weight_file = ROOT / 'weights/best_skip_stgcn.pt'
+            weight_file = ROOT / 'weights/best_skip.pt'
         else:
             weight_file = ROOT / 'weights/tsstg-model.pth'
 

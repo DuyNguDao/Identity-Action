@@ -227,8 +227,8 @@ class Track:
         warp_matrix, src_aligned = self.ECC(previous_frame, next_frame)
         if warp_matrix is None and src_aligned is None:
             return
-        [a,b] = warp_matrix
-        warp_matrix=np.array([a,b,[0,0,1]])
+        [a, b] = warp_matrix
+        warp_matrix=np.array([a, b, [0, 0, 1]])
         warp_matrix = warp_matrix.tolist()
         matrix = self.get_matrix(warp_matrix)
 
@@ -238,7 +238,6 @@ class Track:
         w, h = x2_ - x1_, y2_ - y1_
         cx, cy = x1_ + w / 2, y1_ + h / 2
         self.mean[:4] = [cx, cy, w / h, h]
-
 
     def increment_age(self):
         self.age += 1

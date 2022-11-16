@@ -76,7 +76,9 @@ class StrongSORT(object):
             x1, y1, x2, y2 = self._tlwh_to_xyxy(box)
             track_id = track.track_id
             kpt = track.kpt
-            list_action = track.list_action
+            list_action = track.list_action.copy()
+            # remove skip
+
             conf = track.conf
             pts = np.array(list_action, dtype=np.float32)
             outputs.append({'bbox': [x1, y1, x2, y2], 'score': conf, 'kpt': kpt, 'id': track_id,

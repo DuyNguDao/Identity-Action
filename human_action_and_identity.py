@@ -51,13 +51,14 @@ class ActionAndIdentityRecognition:
         self.face_model = Face_Model(device=device)
 
         # **************************** INIT TRACKING *************************************************
-        # self.tracker = StrongSORT(device=device, max_age=30, n_init=3, max_iou_distance=0.7)  # deep sort
-        self.tracker = SORT(max_age=30, n_init=3, max_iou_distance=0.7)  # sort
+        self.tracker = StrongSORT(device=device, max_age=30, n_init=3, max_iou_distance=0.5)  # deep sort
+        # self.tracker = SORT(max_age=30, n_init=1, max_iou_distance=0.7)  # sort
 
         # ******************************** INIT DATA ********************************************
         self.memory = {}  # memory contain identification human action
         self.memory1 = {}  # memory contain id, face
         self.memory_prob = {}   # memory fall down
+        self.prob = 5
         self.turn_detect_face = True  # flag turn on, off face recognition
         self.data = None  # buffer data for skip when tracking
         self.bbox = None  # buffer data for skip when skeleton detection
@@ -66,6 +67,7 @@ class ActionAndIdentityRecognition:
 
     def processing(self, frame, skip=True):
         h, w, _ = frame.shape
+        image_save = frame.copy()
         info = {}
         if skip:
             # **************************** SKELETON DETECTION *************************************
@@ -130,7 +132,7 @@ class ActionAndIdentityRecognition:
                         if action[0] == "Fall Down":
                             self.memory_prob.update({str(track_id): self.memory_prob[str(track_id)] + 1})
 
-                            if self.memory_prob[str(track_id)] == 5:
+                            if self.memory_prob[str(track_id)] == self.prob:
                                 now = datetime.now()
                                 info.update({str(track_id): {'id': self.memory1[str(track_id)][0],
                                                              'image': self.memory1[str(track_id)][1],
@@ -139,8 +141,11 @@ class ActionAndIdentityRecognition:
                                 # turn on buzzer
                                 t = Process(target=playsound, args=('icon/sound_beep-08.mp3',))
                                 t.start()
+                                image_fd = image_save[max(box[1]-10, 0):min(box[3] + 10, h), box[0]:box[2]]
+                                image_fd = cv2.resize(image_fd, (112, 112))
                                 add_action(data_tuple=(self.memory1[str(track_id)][0], name, self.memory1[str(track_id)][1]
-                                                       , action[0], now.strftime('%a %H:%M:%S')), name_table='action_data')
+                                                       , action[0], image_fd, now.strftime('%a %H:%M:%S')),
+                                           name_table='action_data')
                         else:
                             self.memory_prob.update({str(track_id): 0})
                     frame = self.draw_frame(frame, box, action, name, track_id)
@@ -163,7 +168,7 @@ class ActionAndIdentityRecognition:
         id_hold = []
         for i, box in enumerate(bbox):
             # check and remove bbox
-            if box[0] < 10 or box[1] < 10 or box[2] > w - 10 or box[3] > h - 10:
+            if box[0] < 5 or box[1] < 5 or box[2] > w - 5 or box[3] > h - 5:
                 id_hold.append(False)
                 continue
             id_hold.append(True)
@@ -190,7 +195,7 @@ class ActionAndIdentityRecognition:
                 info.update({name: [data[0], data[2]]})
                 draw_result(frame, box, '', score_f[idx], landmark_f[idx])
             self.turn_detect_face = False
-        cv2.rectangle(frame, (10, 10), (w - 10, h - 10), (0, 255, 0), 2)
+        cv2.rectangle(frame, (5, 5), (w - 5, h - 5), (0, 255, 0), 2)
         return face, frame, info
 
     def draw_frame(self, frame, box, action, name, track_id):
