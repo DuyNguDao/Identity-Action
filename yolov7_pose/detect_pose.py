@@ -30,7 +30,7 @@ class Y7Detect:
         """
         self.weights = weights
         self.model_image_size = 640    # 960
-        self.conf_threshold = 0.20
+        self.conf_threshold = 0.05
         self.iou_threshold = 0.45
         with torch.no_grad():
             self.model, self.device = self.load_model(use_cuda=True)

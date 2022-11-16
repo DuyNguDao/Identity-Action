@@ -32,6 +32,8 @@ pip install -r requirements.txt
 ### Download
 model yolov7 pose state dict:
 [yolov7_w6_pose](https://drive.google.com/file/d/1z8WVeqbjUKeibV0ZRDL5tBac9Ry8AkB3/view?usp=sharing)
+database:
+[database](https://drive.google.com/file/d/1Z7B9D05hn_hzpjeeKYMF3Q1Tdv3F4IMS/view?usp=share_link)
 ### Quick start
 #### start and config url
 ```

@@ -5,12 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="99d32281-e1d6-4107-a7aa-38f1f65514d4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/database/.gitkeep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UI/show_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/show_history.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UI/show_history.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UI/show_history.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/interface_sql.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/interface_sql.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face_recognition/face.py" beforeDir="false" afterPath="$PROJECT_DIR$/face_recognition/face.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/human_action_and_identity.py" beforeDir="false" afterPath="$PROJECT_DIR$/human_action_and_identity.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/information/System_diagram.png" beforeDir="false" afterPath="$PROJECT_DIR$/information/System_diagram.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/information/human_action_diagram.png" beforeDir="false" afterPath="$PROJECT_DIR$/information/human_action_diagram.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yolov7_pose/detect_pose.py" beforeDir="false" afterPath="$PROJECT_DIR$/yolov7_pose/detect_pose.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,14 +41,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/home/duyngu/Desktop/yolov7-pose",
-    "settings.editor.selected.configurable": "shared-indexes"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/duyngu/Desktop/Project_Graduate&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;shared-indexes&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/UI" />
@@ -56,7 +61,7 @@
       <recent name="$PROJECT_DIR$/yolov5_face/weights" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.app">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PROJECT_GRADUATE" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -164,10 +169,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test" />
         <item itemvalue="Python.app" />
-        <item itemvalue="Python.interface_sql" />
         <item itemvalue="Python.run_video" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.interface_sql" />
         <item itemvalue="Python.face" />
       </list>
     </recent_temporary>
@@ -182,16 +187,5 @@
       <updated>1666239524189</updated>
     </task>
     <servers />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/app.py</url>
-          <line>7</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

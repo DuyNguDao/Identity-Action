@@ -7,7 +7,7 @@ contact: ddngu0110@gmail.com, ngocthien3920@gmail.com
 """
 import sys
 import threading
-
+# from multiprocessing import Process
 import PyQt5
 import cv2
 import time
@@ -66,8 +66,10 @@ class ActionThread(QThread):
             frame = cv2.resize(frame, (int(rate * w), int(rate * h)), interpolation=cv2.INTER_AREA)
             h, w, _ = frame.shape
             frame, info = self.model.processing(frame, skip)
+            # skip = not skip
+            if skip:
+                fps = int(1 / (time.time() - start))*2
             skip = not skip
-            fps = int(1 / (time.time() - start))
             cv2.putText(frame, 'FPS:' + str(fps), (0, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
             self.change_pixmap_signal.emit(frame)
             self.change_information_signal.emit(info)
@@ -86,12 +88,13 @@ class AddFaceThread(QThread):
     def __init__(self):
         super().__init__()
         self.model = model_action
+        self._run_flag = True
 
     def run(self):
         global use_camera
         self.cap = cv2.VideoCapture(0)
         w_norm, h_norm = 1280, 720
-        while use_camera == 2:
+        while self._run_flag and use_camera == 2:
             ret, frame = self.cap.read()
             if not ret:
                 break
@@ -102,6 +105,11 @@ class AddFaceThread(QThread):
             h, w, _ = frame.shape
             self.change_pixmap_signal.emit(frame)
         self.cap.release()
+
+    def stop(self):
+        self._run_flag = False
+        self.cap.release()
+        self._run_flag = True
 
 
 class App(QMainWindow):
@@ -128,7 +136,7 @@ class App(QMainWindow):
             use_camera = 1
         else:
             use_camera = 2
-            self.table_widget.tab2.run()
+            # self.table_widget.tab2.run()
 
 
 class MyTableWidget(QWidget):
@@ -197,22 +205,24 @@ class Camera(QWidget, Tab_1):
             pass
 
     @pyqtSlot(np.ndarray)
-    def update_data(self, data):
+    def update_data(self, data_process):
         try:
-            now = datetime.now()
-            image = data['image']
-            qt_img = self.convert_cv_qt(image, self.width_sub_screen, self.height_sub_sceen)
-            if data['name'] == 'Unknown':
-                self.image_action.setPixmap(QtGui.QPixmap('icon/unknown_person.jpg').scaled(200, 200))
-            else:
-                self.image_action.setPixmap(self.convert_cv_qt(data['image'], 200, 200))
-            self.image_action.setPixmap(qt_img)
-            self.name_people.setText(data['name'])
-            self.name_action.setText(data['action'])
-            self.time_action.setText(now.strftime('%a %H:%M:%S'))
-            # save database
-            add_action(data_tuple=(data['id'], data['name'], data['image'], data['action'], now.strftime('%a %H:%M:%S')),
-                       name_table='action_data')
+            for name in data_process.keys():
+                data = data_process[name]
+                # now = datetime.now()
+                image = data['image']
+                qt_img = self.convert_cv_qt(image, self.width_sub_screen, self.height_sub_sceen)
+                if data['name'] == 'Unknown':
+                    self.image_action.setPixmap(QtGui.QPixmap('icon/unknown_person.jpg').scaled(200, 200))
+                else:
+                    self.image_action.setPixmap(self.convert_cv_qt(data['image'], 200, 200))
+                self.image_action.setPixmap(qt_img)
+                self.name_people.setText(data['name'])
+                self.name_action.setText(data['action'])
+                self.time_action.setText(data['time'])
+                # save database
+                # add_action(data_tuple=(data['id'], data['name'], data['image'], data['action'], now.strftime('%a %H:%M:%S')),
+                #            name_table='action_data')
         except Exception:
             pass
 
@@ -282,12 +292,14 @@ class AddPeople(QWidget, Tab_2):
             ret = QMessageBox.question(self, 'confirm', 'Do you want to recording?\n(Yes) or (No)',
                                        QMessageBox.No | QMessageBox.Yes)
             if ret == QMessageBox.Yes:
+                self.run()
                 self.recog_flag = True
         else:
             QMessageBox.warning(self, 'Warning!', 'Fill name first')
 
     def stop(self):
         self.recog_flag = False
+        self.thread.stop()
 
     def save(self):
         try:
@@ -299,7 +311,7 @@ class AddPeople(QWidget, Tab_2):
                 id = self.id.text()
                 self.id.setText('')
                 self.name.setText('')
-                t = Thread(target=self.face_model.create_data, args=(self.list_image, name, id))
+                t = threading.Thread(target=self.face_model.create_data, args=(self.list_image, name, id))
                 t.start()
                 # self.face_model.create_data(self.list_image, name, id)
                 QMessageBox.information(self, 'Information', 'Completed!')

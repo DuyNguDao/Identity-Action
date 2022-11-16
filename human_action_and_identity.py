@@ -20,6 +20,10 @@ import torch
 from classification_lstm.utils.load_model import Model
 from classification_stgcn.Actionsrecognition.ActionsEstLoader import TSSTG
 import random
+from playsound import playsound
+from multiprocessing import Process
+from database.interface_sql import *
+from datetime import datetime, timedelta
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]
@@ -39,7 +43,7 @@ class ActionAndIdentityRecognition:
         self.colors = [[random.randint(0, 255) for _ in range(3)] for _ in self.class_name]
         # *************************** LOAD MODEL LSTM OR ST-GCN ************************************************
         # LSTM
-        # action_model = Model(device=device, skip=True)
+        # self.action_model = Model(device=device, skip=True)
         # ST-GCN
         self.action_model = TSSTG(device=device, skip=True)
 
@@ -53,6 +57,7 @@ class ActionAndIdentityRecognition:
         # ******************************** INIT DATA ********************************************
         self.memory = {}  # memory contain identification human action
         self.memory1 = {}  # memory contain id, face
+        self.memory_prob = {}   # memory fall down
         self.turn_detect_face = True  # flag turn on, off face recognition
         self.data = None  # buffer data for skip when tracking
         self.bbox = None  # buffer data for skip when skeleton detection
@@ -80,6 +85,7 @@ class ActionAndIdentityRecognition:
                     kpt = kpt[:, :2].astype('int')
                     # ************************************ CHECK ID *******************************************
                     if str(track_id) not in self.memory:
+                        self.memory_prob.update({str(track_id): 0})
                         if len(list_face) == 0:
                             self.memory.update({str(track_id): ['Unknown', 0]})
                             self.memory1.update({str(track_id): ['None', self.face_unkhow]})
@@ -116,13 +122,27 @@ class ActionAndIdentityRecognition:
                     action = None
                     if len(list_kpt) == 15:
                         # LSTM
-                        # action, score = action_model.predict([list_kpt], w, h, batch_size=1)
+                        # action, score = self.action_model.predict([list_kpt], w, h, batch_size=1)
+
                         # ST-GCN
                         torch.cuda.reset_peak_memory_stats()
                         action, score = self.action_model.predict(list_kpt, (w, h))
                         if action[0] == "Fall Down":
-                            info.update({'id': self.memory1[str(track_id)][0], 'image': self.memory1[str(track_id)][1],
-                                         'name': name, 'action': action[0]})
+                            self.memory_prob.update({str(track_id): self.memory_prob[str(track_id)] + 1})
+
+                            if self.memory_prob[str(track_id)] == 5:
+                                now = datetime.now()
+                                info.update({str(track_id): {'id': self.memory1[str(track_id)][0],
+                                                             'image': self.memory1[str(track_id)][1],
+                                                             'name': name, 'action': action[0],
+                                                             'time': now.strftime('%a %H:%M:%S')}})
+                                # turn on buzzer
+                                t = Process(target=playsound, args=('icon/sound_beep-08.mp3',))
+                                t.start()
+                                add_action(data_tuple=(self.memory1[str(track_id)][0], name, self.memory1[str(track_id)][1]
+                                                       , action[0], now.strftime('%a %H:%M:%S')), name_table='action_data')
+                        else:
+                            self.memory_prob.update({str(track_id): 0})
                     frame = self.draw_frame(frame, box, action, name, track_id)
 
             # ************************ UPDATE COUNT MEMORY WITH TRACK ID ******************************
@@ -131,6 +151,7 @@ class ActionAndIdentityRecognition:
                 if self.memory[key][1] > 30:
                     del self.memory[key]
                     del self.memory1[key]
+                    del self.memory_prob[key]
                     continue
                 self.memory.update({key: [self.memory[key][0], self.memory[key][1] + 1]})
         return frame, info

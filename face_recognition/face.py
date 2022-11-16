@@ -32,18 +32,18 @@ class Face_Model():
         feets = []
         face = cv2.imread('icon/unknown_person.jpg')
         face = cv2.resize(face, (112, 112))
-        if len(list_image) > 300:
-            list_image = list_image[:300]
+        if len(list_image) > 200:
+            list_image = list_image[:200]
         for i in tqdm(range(len(list_image)), desc='Processing data'):
             image = list_image[i]
-            try:
-                bbox, label, label_id, score, kpss = self.Face_Detection.predict(image)
-                feet = self.face_encoding(image, kps=np.array(kpss[0]))
-                feets.append(feet)
-                if i == 5:
-                    face = cv2.resize(image[bbox[0][1]:bbox[0][3], bbox[0][0]:bbox[0][2]], (112, 112))
-            except:
-                continue
+            # try:
+            bbox, label, label_id, score, kpss = self.Face_Detection.predict(image)
+            feet = self.face_encoding(image, kps=np.array(kpss[0]))
+            feets.append(feet)
+            if i == 5:
+                face = cv2.resize(image[bbox[0][1]:bbox[0][3], bbox[0][0]:bbox[0][2]], (112, 112))
+            # except:
+            #     continue
         feets = np.sum(np.array(feets), axis=0) / len(feets)
         embed = np.array(feets, dtype='float')
         add_face((id_face, name, face, embed), 'faceid')
