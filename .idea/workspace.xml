@@ -5,17 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="99d32281-e1d6-4107-a7aa-38f1f65514d4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UI/show_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/show_history.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UI/show_history.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UI/show_history.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_stgcn/Actionsrecognition/ActionsEstLoader.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_stgcn/Actionsrecognition/ActionsEstLoader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/interface_sql.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/interface_sql.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/human_action_and_identity.py" beforeDir="false" afterPath="$PROJECT_DIR$/human_action_and_identity.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run_video.py" beforeDir="false" afterPath="$PROJECT_DIR$/run_video.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/strong_sort/sort/track.py" beforeDir="false" afterPath="$PROJECT_DIR$/strong_sort/sort/track.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/strong_sort/strong_sort.py" beforeDir="false" afterPath="$PROJECT_DIR$/strong_sort/strong_sort.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face_recognition/database.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/face_recognition/face.py" beforeDir="false" afterPath="$PROJECT_DIR$/face_recognition/face.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/information/confusion_matrix_STGCN.png" beforeDir="false" afterPath="$PROJECT_DIR$/information/confusion_matrix_STGCN.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/information/table_compare_2_method.png" beforeDir="false" afterPath="$PROJECT_DIR$/information/table_compare_2_method.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/information/table_compare_action.png" beforeDir="false" afterPath="$PROJECT_DIR$/information/table_compare_action.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

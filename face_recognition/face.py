@@ -19,7 +19,7 @@ class Face_Model():
 
     def __init__(self, root_path='face_recognition', device='cpu'):
         self.root_path = root_path
-        self.Face_Recognition = ArcFacePyTorch(model_file='face_recognition/Weight/backbone.pth', net='r18', device=device)
+        self.Face_Recognition = ArcFacePyTorch(model_file='face_recognition/Weight/model_r18.pt', net='r18', device=device)
         self.Face_Detection = Y5DetectFace(weights='yolov5_face/weights/yolov5_face.pt')
         self.database = self.load_data()
         self.data_feet = self.database['embed']
