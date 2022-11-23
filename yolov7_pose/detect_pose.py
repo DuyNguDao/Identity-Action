@@ -67,7 +67,7 @@ class Y7Detect:
         return model, device
 
     def preprocess_image(self, image_bgr):
-        img = letterbox(image_bgr.copy(), self.image_size, stride=self.stride, auto=False)[0]
+        img = letterbox(image_bgr.copy(), self.image_size, stride=self.stride, auto=True)[0]
         # Convert
         img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
         img = np.ascontiguousarray(img)

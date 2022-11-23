@@ -88,7 +88,6 @@ class Y5DetectFace:
         img = letterbox(img0, new_shape=imgsz)[0]
         # Convert
         img = img[:, :, ::-1].transpose(2, 0, 1).copy()  # BGR to RGB, to 3x416x416
-
         img = torch.from_numpy(img).to(self.device)
         img = img.float()  # uint8 to fp16/32
         img /= 255.0  # 0 - 255 to 0.0 - 1.0
@@ -110,11 +109,6 @@ class Y5DetectFace:
             if len(det):
                 # Rescale boxes from img_size to im0 size
                 det[:, :4] = scale_coords(img.shape[2:], det[:, :4], image_rgb.shape).round()
-
-                # Print results
-                for c in det[:, -1].unique():
-                    n = (det[:, -1] == c).sum()  # detections per class
-
                 det[:, 5:15] = self.scale_coords_landmarks(img.shape[2:], det[:, 5:15], image_rgb.shape).round()
 
                 for j in range(det.size()[0]):

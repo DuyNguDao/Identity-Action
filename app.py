@@ -67,6 +67,8 @@ class ActionThread(QThread):
         self.cap = cv2.VideoCapture(url)
         h_norm, w_norm = 720, 1280
         skip = True
+        video_writer = cv2.VideoWriter('video_demo.avi',
+                                       cv2.VideoWriter_fourcc(*'XVID'), 30, (w_norm, h_norm))
         while self._run_flag and use_camera == 1:
             start = time.time()
             ret, frame = self.cap.read()
@@ -85,6 +87,7 @@ class ActionThread(QThread):
             now = datetime.now()
             cv2.putText(frame, 'FPS:' + str(fps), (0, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
             cv2.putText(frame, now.strftime('%a %H:%M:%S'), (w-120, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
+            video_writer.write(frame)
             self.change_pixmap_signal.emit(frame)
             self.change_information_signal.emit(info)
         self.cap.release()
@@ -306,6 +309,7 @@ class AddPeople(QWidget, Tab_2):
             ret = QMessageBox.question(self, 'confirm', 'Do you want to recording?\n(Yes) or (No)',
                                        QMessageBox.No | QMessageBox.Yes)
             if ret == QMessageBox.Yes:
+                self.list_image = []
                 self.run()
                 self.recog_flag = True
         else:
@@ -343,7 +347,8 @@ class AddPeople(QWidget, Tab_2):
         bbox, label, label_id, score, landmark = self.face_model.detect(cv_img)
         if len(bbox) != 0:
             if self.recog_flag:
-                self.list_image.append(self.image.copy())
+                if len(self.list_image) < 200:
+                    self.list_image.append(self.image.copy())
         for idx, box in enumerate(bbox):
             draw_result(cv_img, box, '', score[idx], landmark[idx])
         qt_img = self.convert_cv_qt(cv_img, 1366, 768)
