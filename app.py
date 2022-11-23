@@ -5,28 +5,22 @@ Mentor: PhD. TRAN THI MINH HANH
 Time: 12/11/2022
 contact: ddngu0110@gmail.com, ngocthien3920@gmail.com
 """
-import sys
 import threading
-# from multiprocessing import Process
-import PyQt5
 import cv2
 import time
-import os
 from PyQt5 import QtGui
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget, QVBoxLayout, QMessageBox, QTableWidgetItem, QLabel
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget, \
+    QVBoxLayout, QMessageBox, QTableWidgetItem, QLabel
 from PyQt5.QtGui import QIcon, QPixmap, QFont
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, Qt, QThread
-import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime
 from UI.main import Ui_Form as Tab_1
 from UI.add_data import Ui_Form as Tab_2
 from UI.show_database import Ui_Form as Show_database
 from UI.show_history import Ui_Form as Show_history
-# from Database.interface_sql import get_all_employee, update_info, delete_employee
 from human_action_and_identity import ActionAndIdentityRecognition
 from yolov5_face.detect_face import draw_result
 from database.interface_sql import *
-from threading import Thread
 
 # ************************************ RESET EMPTY CACHE CUDA ********************************************
 import torch, gc
@@ -65,10 +59,17 @@ class ActionThread(QThread):
     def run(self):
         global use_camera, url
         self.cap = cv2.VideoCapture(url)
+        frame_width = int(self.cap.get(3))
+        frame_height = int(self.cap.get(4))
         h_norm, w_norm = 720, 1280
+        if frame_width > w_norm:
+            rate = w_norm / frame_width
+            h_norm = int(frame_height*rate)
+            frame_height = h_norm
+            frame_width = w_norm
         skip = True
         video_writer = cv2.VideoWriter('video_demo.avi',
-                                       cv2.VideoWriter_fourcc(*'XVID'), 30, (w_norm, h_norm))
+                                       cv2.VideoWriter_fourcc(*'XVID'), 30, (frame_width, frame_height))
         while self._run_flag and use_camera == 1:
             start = time.time()
             ret, frame = self.cap.read()
@@ -76,9 +77,10 @@ class ActionThread(QThread):
                 break
             h, w, _ = frame.shape
             # convert size to 1280 - x
-            rate = w_norm / w
-            frame = cv2.resize(frame, (int(rate * w), int(rate * h)), interpolation=cv2.INTER_AREA)
-            h, w, _ = frame.shape
+            if w > w_norm:
+                rate = w_norm / w
+                frame = cv2.resize(frame, (int(rate * w), int(rate * h)), interpolation=cv2.INTER_AREA)
+                h, w, _ = frame.shape
             frame, info = self.model.processing(frame, skip)
             # skip = not skip
             if skip:
@@ -104,7 +106,6 @@ class AddFaceThread(QThread):
 
     def __init__(self):
         super().__init__()
-        self.model = model_action
         self._run_flag = True
 
     def run(self):
@@ -482,4 +483,6 @@ class ShowHistory(QWidget, Show_history):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = App()
+    del model_action
+    torch.cuda.empty_cache()
     sys.exit(app.exec_())

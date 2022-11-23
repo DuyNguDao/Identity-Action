@@ -78,7 +78,7 @@ class ActionAndIdentityRecognition:
         # ***************************** TRACKING **************************************************
         if len(self.bbox) != 0:
             if skip:
-                self.data = self.tracker.update(self.bbox, score, kpts, frame)
+                self.data = self.tracker.update(self.bbox, score, kpts, image_save)
             for outputs in self.data:
                 if len(outputs['bbox']) != 0:
                     box, kpt, track_id, list_kpt = outputs['bbox'], outputs['kpt'], outputs['id'], \

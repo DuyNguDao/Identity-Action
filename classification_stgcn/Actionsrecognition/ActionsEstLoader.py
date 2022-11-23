@@ -36,6 +36,9 @@ class TSSTG(object):
         self.model = TwoStreamSpatialTemporalGraph(self.graph_args, self.num_class).to(self.device)
         self.model.load_state_dict(torch.load(weight_file))
         self.model.eval()
+        self.half = torch.cuda.is_available()
+        if self.half:
+            self.model.half()
 
     def predict(self, pts, image_size):
         """Predict actions from single person skeleton points and score in time sequence.
@@ -56,6 +59,9 @@ class TSSTG(object):
         mot = pts[:, :2, 1:, :] - pts[:, :2, :-1, :]
         mot = mot.to(self.device)
         pts = pts.to(self.device)
+        if self.half:
+            mot = mot.half()
+            pts = pts.half()
         out = self.model((pts, mot)).detach().cpu().numpy()
         label = self.class_names[out[0].argmax()]
         score = out[0].max()*100
