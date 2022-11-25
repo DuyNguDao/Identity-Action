@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="99d32281-e1d6-4107-a7aa-38f1f65514d4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classification_stgcn/Actionsrecognition/ActionsEstLoader.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification_stgcn/Actionsrecognition/ActionsEstLoader.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_recognition/deepface.py" beforeDir="false" afterPath="$PROJECT_DIR$/face_recognition/deepface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/human_action_and_identity.py" beforeDir="false" afterPath="$PROJECT_DIR$/human_action_and_identity.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yolov5_face/detect_face.py" beforeDir="false" afterPath="$PROJECT_DIR$/yolov5_face/detect_face.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face_recognition/face.py" beforeDir="false" afterPath="$PROJECT_DIR$/face_recognition/face.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

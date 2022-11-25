@@ -48,13 +48,16 @@ class Face_Model():
         embed = np.array(feets, dtype='float')
         add_face((id_face, name, face, embed), 'faceid')
         # update data
-        self.database = self.load_data()
-        self.data_feet = self.database['embed']
-        self.name_id = self.database['name']
+        self.update_data()
 
     def load_data(self):
         id_face, fullname, face, embed = get_all_face('faceid')
         return {'id': id_face, 'name': fullname, 'face': face, 'embed': embed}
+
+    def update_data(self):
+        self.database = self.load_data()
+        self.data_feet = self.database['embed']
+        self.name_id = self.database['name']
 
     def face_encoding(self, image, kps):
         face_box_class = {'kps':  kps}

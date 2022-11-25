@@ -300,7 +300,7 @@ class AddPeople(QWidget, Tab_2):
         self.name.clear()
 
     def show_tab_database(self):
-        self.show_tab = ShowDatabase()
+        self.show_tab = ShowDatabase(self.face_model)
 
     def show_tab_history(self):
         self.show_tab1 = ShowHistory()
@@ -368,7 +368,7 @@ class AddPeople(QWidget, Tab_2):
 
 
 class ShowDatabase(QWidget, Show_database):
-    def __init__(self):
+    def __init__(self, face_model):
         super(ShowDatabase, self).__init__()
         self.setupUi(self)
         self.setWindowTitle("Database")
@@ -376,6 +376,7 @@ class ShowDatabase(QWidget, Show_database):
         self.save_database.clicked.connect(self.save_change)
         self.table_database.horizontalHeader().setDefaultSectionSize(224)
         self.table_database.verticalHeader().setDefaultSectionSize(224)
+        self.face_model = face_model
         font = QFont()
         font.setPointSize(15)
         self.table_database.setFont(font)
@@ -431,6 +432,7 @@ class ShowDatabase(QWidget, Show_database):
             delete_face(code_id)
             self.show_database()
             QMessageBox.information(self, "Delete successfully", "Completed.")
+            self.face_model.update_data()
 
 
 class ShowHistory(QWidget, Show_history):
