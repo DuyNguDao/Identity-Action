@@ -144,7 +144,15 @@ Config Computer:
 * https://github.com/biubug6/Pytorch_Retinaface.git
 #### Face recognition
 * https://github.com/DuyNguDao/ArcFace_Pytorch.git
-
+## Citation
+```
+@article{
+  title={Identity and application actions for fall detection in the elderly},
+  author={Dao Duy Ngu, Le Van Thien, Tran Thi Minh Hanh},
+  journal={},
+  year={2022}
+}
+```
 ## Contact
 ```
 Address: Da Nang University of Science and Technology
