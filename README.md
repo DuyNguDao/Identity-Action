@@ -1,6 +1,6 @@
 # IDENTITY AND APPLICATION ACTIONS FOR FALL DETECTION IN THE ELDERLY
 ## Introduction
-This is project of identity recognition and human action that is widely applied in life such as: falls in the elderly, stroke patients or behavior recognition in children
+Falls are a very common unexpected accident in the elderly that result in serious injuries such as broken bones, head injury. Detecting falls and taking fall patients to the emergency room in time is very important. In this paper, we propose a method that combines face recognition and action recognition for fall detection. Specifically, we identify seven basic actions that take place in elderly daily life based on skeleton data detected using YOLOv7-Pose model. Two deep models which are Spatial Temporal Graph Convolutional Network (ST-GCN) and Long Short-Term Memory (LSTM) are employed for action recognition on the skeleton data. The experimental results on our dataset show that ST-GCN model achieved an accuracy of 90% higher than the LSTM model by 7%. 
 ## video demo
 https://user-images.githubusercontent.com/87271954/204276637-f5d343de-9b19-43e4-a34b-5ffb7b696d9a.mp4
 ## System Diagram
