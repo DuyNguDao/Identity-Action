@@ -164,6 +164,8 @@ Email: ddngu0110@gmail.com, ngocthien3920@gmail.com, hanhtran@dut.udn.vn
 * https://github.com/WongKinYiu/yolov7.git
 * https://github.com/biubug6/Pytorch_Retinaface.git
 * https://github.com/GajuuzZ/Human-Falling-Detect-Tracks.git
+* https://github.com/mikel-brostrom/Yolov5_StrongSORT_OSNet.git
+
 
 
 
