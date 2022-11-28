@@ -18,7 +18,7 @@ Instructor: TRAN THI MINH HANH
 ## Usage
 ### Install package
 ```
-git clone https://github.com/DuyNguDao/Project_Graduate.git
+git clone https://github.com/DuyNguDao/Identity-Action.git
 ```
 ```
 cd Project_Graduate
