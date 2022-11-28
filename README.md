@@ -2,7 +2,7 @@
 ## Introduction
 This is project of identity recognition and human action that is widely applied in life such as: falls in the elderly, stroke patients or behavior recognition in children
 ## video demo
-![](./information/recog_recording.mp4)
+https://user-images.githubusercontent.com/87271954/204276637-f5d343de-9b19-43e4-a34b-5ffb7b696d9a.mp4
 ## System Diagram
 
 ![](./information/System_diagram.png)
