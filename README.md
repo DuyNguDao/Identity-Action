@@ -156,7 +156,7 @@ Config Computer:
 ## Contact
 ```
 Address: Da Nang University of Science and Technology
-Email: ddngu0110@gmail.com, ngocthien3920@gmail.com
+Email: ddngu0110@gmail.com, ngocthien3920@gmail.com, hanhtran@@dut.udn.vn
 ```
 ## Acknowledgements
 * https://github.com/deepinsight/insightface.git
