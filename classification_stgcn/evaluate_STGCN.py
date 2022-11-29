@@ -122,7 +122,7 @@ if __name__ == "__main__":
         print('Precision: ', precision[i])
         print('Recall: ', recall[i])
         print('F1-score', f1_score[i])
-    with open('info_lstm.txt', 'w') as file:
+    with open('info_st-gcn.txt', 'w') as file:
         file.write('{} {} {}'.format(precision, recall, f1_score))
     plot_cm(CM, normalize=False, save_dir='', names_x=class_names,
             names_y=class_names, show=False)
