@@ -77,7 +77,7 @@ class ActionThread(QThread):
                 break
             h, w, _ = frame.shape
             # convert size to 1280 - x
-            if w > w_norm:
+            if True:  # w > w_norm: 
                 rate = w_norm / w
                 frame = cv2.resize(frame, (int(rate * w), int(rate * h)), interpolation=cv2.INTER_AREA)
                 h, w, _ = frame.shape
