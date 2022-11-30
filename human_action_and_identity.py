@@ -165,15 +165,15 @@ class ActionAndIdentityRecognition:
         h, w, _ = frame.shape
         bbox, label, score, label_id, kpts = self.y7_pose.predict(frame)
         # ************************** CHECK AND REMOVE NOISE SKELETON ****************************
-        # id_hold = []
-        # for i, box in enumerate(bbox):
-        #     # check and remove bbox
-        #     if box[0] < 5 or box[1] < 5 or box[2] > w - 5 or box[3] > h - 5:
-        #         id_hold.append(False)
-        #         continue
-        #     id_hold.append(True)
+        id_hold = []
+        for i, box in enumerate(bbox):
+            # check and remove bbox
+            if box[0] < 5 or box[1] < 5 or box[2] > w - 5 or box[3] > h - 5:
+                id_hold.append(False)
+                continue
+            id_hold.append(True)
         bbox, score, kpts = np.array(bbox), np.array(score), np.array(kpts)
-        # bbox, score, kpts = bbox[id_hold], score[id_hold], kpts[id_hold]
+        bbox, score, kpts = bbox[id_hold], score[id_hold], kpts[id_hold]
         return bbox, score, kpts
 
     def face_recognition(self, frame):
