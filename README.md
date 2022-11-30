@@ -126,8 +126,8 @@ Config Computer:
 
 ### Compare ST-GCN + YOLOv7-Pose and ST-GCN + YOLOv3 + Alphapose
 Config Computer:
-+ CPU: Intel(R) Core(TM) i5-8300H CPU @ 2.30GHz
-+ GPU: GEFORCE RTX 1050 với RAM 4G
++ CPU: AMD Ryzen 7 4800H với 16G RAM DDR4
++ GPU: NVIDIA GeForce GTX 1650 với 4G RAM DDR6
 
 ![](./information/table_compare_2_method.png)
 
