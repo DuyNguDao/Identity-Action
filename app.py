@@ -1,5 +1,5 @@
 """
-THE APPLICATION OF FACE RECOGNITION AND ACTION RECOGNITION FOR FALL DETECTION IN THE ELDERLY
+THE APPLICATION OF FACE RECOGNITION AND ACTION RECOGNITION FOR FALL DETECTION
 Member: DAO DUY NGU, LE VAN THIEN
 Mentor: PhD. TRAN THI MINH HANH
 Time: 12/11/2022
@@ -134,7 +134,7 @@ class App(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.title = 'Action Management Software For The Elderly'
+        self.title = 'Action Management Software'
         self.setWindowIcon(QIcon('icon/logo.png'))
         self.left = 0
         self.top = 0
