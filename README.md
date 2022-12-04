@@ -147,7 +147,7 @@ Config Computer:
 ## Citation
 ```
 @article{
-  title={The application of face recognition and action recognition for fall detection in the elderly},
+  title={The application of face recognition and action recognition for fall detection},
   author={Dao Duy Ngu, Le Van Thien, Tran Thi Minh Hanh},
   journal={},
   year={2022}
