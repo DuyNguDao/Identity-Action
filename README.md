@@ -21,7 +21,7 @@ Instructor: TRAN THI MINH HANH
 git clone https://github.com/DuyNguDao/Identity-Action.git
 ```
 ```
-cd Project_Graduate
+cd Identity-Action
 ```
 ```
 conda create --name human_action python=3.8
