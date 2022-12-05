@@ -108,6 +108,18 @@ Config Computer:
 ### Diagram
 
 ![](./information/human_action_diagram.png)
+### Backbone
+#### LSTM
+
+![](./information/lstm.png)
+
+### ST-GCN
+
+![](./information/stgcn.png)
+
+### Two Stream ST-GCN
+
+![](./information/two-stgcn.png)
 ### Confusion matrix
 * Model LSTM (Long Short Term Memory)
 
