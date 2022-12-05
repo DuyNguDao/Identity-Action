@@ -98,7 +98,7 @@ Config Computer:
 * ResNet18
 
 ![](information/ResNet18.png)
-#### Methods compare: LOOCV (Leave One Of Cross Validation), Time processing with FaceScrub data
+#### Methods compare: LOOCV (Leave-One-Out Cross-Validation), Time processing with FaceScrub data
 
 ![](./information/table_compare_face_recog.png)
 ### Diagram Accuracy Thresh
