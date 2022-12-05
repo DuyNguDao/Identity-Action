@@ -111,15 +111,15 @@ Config Computer:
 ### Backbone
 #### LSTM
 
-![](./information/lstm.png)
+![](./information/lstm.PNG)
 
 ### ST-GCN
 
-![](./information/stgcn.png)
+![](./information/stgcn.PNG)
 
 ### Two Stream ST-GCN
 
-![](./information/two-stgcn.png)
+![](./information/two-stgcn.PNG)
 ### Confusion matrix
 * Model LSTM (Long Short Term Memory)
 
