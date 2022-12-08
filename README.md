@@ -85,7 +85,7 @@ Config Computer:
 + CPU: AMD Ryzen 7 4800H với 16G RAM DDR4
 + GPU: NVIDIA GeForce GTX 1650 với 4G RAM DDR6
 
-![](./information/table_compare_face_detect.png)
+![](./information/table_compare_face_detect.PNG)
 
 #### Face landmark loss
 
@@ -100,7 +100,7 @@ Config Computer:
 ![](information/ResNet18.png)
 #### Methods compare: LOOCV (Leave-One-Out Cross-Validation), Time processing with FaceScrub data
 
-![](./information/table_compare_face_recog.png)
+![](./information/table_compare_face_recog.PNG)
 ### Diagram Accuracy Thresh
 
 ![](./information/AT.png)
