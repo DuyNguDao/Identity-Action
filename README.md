@@ -1,5 +1,4 @@
-# The combination of face identification and action
-recognition for fall detection
+# The combination of face identification and action recognition for fall detection
 ## Introduction
 Falls are a very common unexpected accident in the elderly that result in serious injuries such as broken bones, head injury. Detecting falls and taking fall patients to the emergency room in time is very important. In this project, we propose a method that combines face recognition and action recognition for fall detection. Specifically, we identify seven basic actions that take place in elderly daily life based on skeleton data detected using YOLOv7-Pose model. Two deep models which are Spatial Temporal Graph Convolutional Network (ST-GCN) and Long Short-Term Memory (LSTM) are employed for action recognition on the skeleton data. The experimental results on our dataset show that ST-GCN model achieved an accuracy of 90% higher than the LSTM model by 7%. 
 ## video demo
