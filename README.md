@@ -159,8 +159,8 @@ Config Computer:
 ## Citation
 ```
 @article{
-  title={The application of face recognition and action recognition for fall detection},
-  author={Dao Duy Ngu, Le Van Thien, Tran Thi Minh Hanh},
+  title={The combination of face identification and action recognition for fall detection},
+  author={Dao Duy Ngu, Le Van Thien, Tran Thi Minh Hanh, Nguyen Thi Hong Yen, Dao Duy Tuan},
   journal={},
   year={2022}
 }
