@@ -6,8 +6,6 @@ https://user-images.githubusercontent.com/87271954/204276637-f5d343de-9b19-43e4-
 ## System Diagram
 
 ![](./information/System_diagram.png)
-## App
-![](./information/app.png)
 ## Dev
 ```
 Member:
