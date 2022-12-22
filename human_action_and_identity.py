@@ -1,5 +1,5 @@
 """
-THE APPLICATION OF FACE RECOGNITION AND ACTION RECOGNITION FOR FALL DETECTION
+The combination of face identification and action recognition for fall detection
 Member: DAO DUY NGU, LE VAN THIEN
 Mentor: PhD. TRAN THI MINH HANH
 Time: 12/11/2022
