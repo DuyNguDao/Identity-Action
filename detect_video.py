@@ -129,7 +129,7 @@ def detect_video(url_video=None, flag_save=False, fps=None, name_video='video.av
                     continue
                 feet = face_model.face_encoding(frame, kps=np.array(landmark_f[idx]))
                 name = face_model.face_compare(feet, threshold=0.3)
-                face.update({name: landmark_f[idx]})
+                face.update({name[1]: landmark_f[idx]})
                 draw_result(frame, box, '', score_f[idx], landmark_f[idx])
             turn_detect_face = False
         cv2.rectangle(frame, (10, 10), (w-10, h-10), (0, 255, 0), 2)
