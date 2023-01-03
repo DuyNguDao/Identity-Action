@@ -159,7 +159,7 @@ Config Computer:
 @article{
   title={The combination of face identification and action recognition for fall detection},
   author={Dao Duy Ngu, Le Van Thien, Tran Thi Minh Hanh, Nguyen Thi Hong Yen, Dao Duy Tuan},
-  journal={},
+  journal={Journal of Science and Technology, Issue on Information and Communications Technology},
   year={2022}
 }
 ```
