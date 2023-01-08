@@ -167,7 +167,6 @@ Config Computer:
 ```
 The University of Da Nang, The University of Science and Technology
 Address: 54, Nguyen Luong Bang street, Lien Chieu district, Da Nang City
-Email: ddngu0110@gmail.com, ngocthien3920@gmail.com, hanhtran@dut.udn.vn
 ```
 ## Acknowledgements
 * https://github.com/deepinsight/insightface.git
