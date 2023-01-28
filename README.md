@@ -165,7 +165,7 @@ Config Computer:
 ## Contact
 ```
 The University of Da Nang, The University of Science and Technology
-Address: 54, Nguyen Luong Bang street, Lien Chieu district, Da Nang City
+Address: 54, Nguyen Luong Bang street, Lien Chieu district, Da Nang City, Viet Nam
 ```
 ## Acknowledgements
 * https://github.com/deepinsight/insightface.git
