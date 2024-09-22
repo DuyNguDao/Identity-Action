@@ -29,6 +29,7 @@ pip install -r requirements.txt
 ```
 ### Download
 Model yolov7 pose state-dict: (Note: the model download fee is 10$. Please send information to my email to download. - ddngu0110@gmail.com)
+
 [yolov7_w6_pose](https://drive.google.com/file/d/1UiDdOghLoRUOLbgkh41538oEXSG4dDUh/view?usp=share_link)
 ### Quick start
 #### Start and config URL
