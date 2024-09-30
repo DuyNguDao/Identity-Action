@@ -1,6 +1,7 @@
 opencv-python-headless==4.5.5.64
 torchvision==0.10.1
-torch = 1.9.1
+torch==1.9.1
+numpy==1.20.0
 thop
 tensorboard
 seaborn
