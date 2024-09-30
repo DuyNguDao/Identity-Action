@@ -28,7 +28,7 @@ conda create --name human_action python=3.8
 pip install -r requirements.txt
 ```
 ### Download
-Model yolov7 pose state-dict: (Note: the model download fee is 10$. Please send information to my email to download. - ddngu0110@gmail.com)
+Model yolov7 pose state-dict: (Note: the model download fee is 20$. Please send information to my email to download. - ddngu0110@gmail.com)
 
 [yolov7_w6_pose](https://drive.google.com/file/d/1UiDdOghLoRUOLbgkh41538oEXSG4dDUh/view?usp=share_link)
 ### Quick start
@@ -128,8 +128,8 @@ Config Computer:
 Accuracy, Precision, Recall, F1-score, Time processing
 
 Config Computer:
-+ CPU: AMD Ryzen 7 4800H với 16G RAM DDR4
-+ GPU: NVIDIA GeForce GTX 1650 với 4G RAM DDR6
++ CPU: AMD Ryzen 7 4800H with 16G RAM DDR4
++ GPU: NVIDIA GeForce GTX 1650 with 4G RAM DDR6
 
 ![](./information/table_compare_action.png)
 
