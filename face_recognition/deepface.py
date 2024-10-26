@@ -55,9 +55,9 @@ class ArcFacePyTorch:
         self.model = get_model(self.net, num_features=512, fp16=False)
         self.model.load_state_dict(torch.load(self.model_file))
         self.model.eval().to(device=self.device)
-        self.half = torch.cuda.is_available()
-        if self.half:
-            self.model.half()
+        #self.half = torch.cuda.is_available()
+        #if self.half:
+        #    self.model.half()
 
     def get(self, img, face):
         aimg = face_align.norm_crop(img, landmark=face.kps)
@@ -85,8 +85,8 @@ class ArcFacePyTorch:
         img = torch.from_numpy(img).unsqueeze(0).float()
         img.div_(255).sub_(0.5).div_(0.5)
         img = img.to(device=self.device)
-        if self.half:
-            img = img.half()
+        #if self.half:
+        #    img = img.half()
         import time
         feet = self.model(img).detach().cpu().numpy()
         return feet.ravel()
