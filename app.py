@@ -260,6 +260,20 @@ class Camera(QWidget, Tab_1):
         p = convert_to_Qt_format.scaled(w_screen, h_screen, Qt.KeepAspectRatio)
         return QPixmap.fromImage(p)
 
+class FaceDetectThread(QThread):
+    face_info = pyqtSignal(tuple)
+    def __init__(self, face_model):
+        super().__init__()
+        self.face_model = face_model
+        self.cv_img = None
+
+    def set_param(self, cv_img):
+        self.cv_img = cv_img
+
+    def run(self):
+        bbox, label, label_id, score, kpss = self.face_model.detect(self.cv_img)
+        self.face_info.emit((bbox, label, label_id, score, kpss))
+        self.wait()
 
 class AddPeople(QWidget, Tab_2):
     def __init__(self):
@@ -280,7 +294,10 @@ class AddPeople(QWidget, Tab_2):
         self.recog_flag = False
         self.list_image = []
         self.thread = AddFaceThread()
-        self.thread.change_pixmap_signal.connect(self.update_image_main_screen)
+        #self.thread.change_pixmap_signal.connect(self.update_image_main_screen)
+        self.thread.change_pixmap_signal.connect(self.update_image)
+        self.thread_face_detect = FaceDetectThread(model_action.face_model)
+        self.thread_face_detect.face_info.connect(self.update_image_main_screen)
         self.thread_cap_run = False
         # self.run()
         self.show()
@@ -341,19 +358,47 @@ class AddPeople(QWidget, Tab_2):
             QMessageBox.warning(self, 'Warning!', "Can't create data")
             self.list_image = []
 
-    @pyqtSlot(np.ndarray)
-    def update_image_main_screen(self, cv_img):
-        """Updates the image_label with a new opencv image"""
-        self.image = cv_img.copy()
-        bbox, label, label_id, score, landmark = self.face_model.detect(cv_img)
+    def draw_face(self, frame, box):
+        color = (255, 255, 0)
+        xmin, ymin, xmax, ymax = box
+        h, w, c = frame.shape
+        tl = 1 or round(0.002 * (h + w) / 2) + 1  # line/font thickness
+        cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), color, thickness=tl, lineType=cv2.LINE_AA)
+        return frame
+        
+    def update_image_main_screen(self, face_info):
+        bbox, label, label_id, score, kpss = face_info
+        cv_img = self.image.copy()
         if len(bbox) != 0:
             if self.recog_flag:
                 if len(self.list_image) < 200:
                     self.list_image.append(self.image.copy())
         for idx, box in enumerate(bbox):
-            draw_result(cv_img, box, '', score[idx], landmark[idx])
+            cv_img = self.draw_face(cv_img, box)
+            cv_img = cv2.resize(cv_img, (1366, 768))
         qt_img = self.convert_cv_qt(cv_img, 1366, 768)
         self.label_screen.setPixmap(qt_img)
+    
+    @pyqtSlot(np.ndarray)
+    def update_image(self, cv_img):
+        """Updates the image_label with a new opencv image"""
+        self.image = cv_img.copy()
+        #bbox, label, label_id, score, kpss = self.face_model.detect(cv_img)
+        self.thread_face_detect.set_param(cv_img)
+        self.thread_face_detect.start()
+    
+    #def update_image_main_screen(self, cv_img):
+    #    """Updates the image_label with a new opencv image"""
+    #    self.image = cv_img.copy()
+    #   bbox, label, label_id, score, landmark = self.face_model.detect(cv_img)
+    #    if len(bbox) != 0:
+    #        if self.recog_flag:
+    #            if len(self.list_image) < 200:
+    #                self.list_image.append(self.image.copy())
+    #    for idx, box in enumerate(bbox):
+    #        draw_result(cv_img, box, '', score[idx], landmark[idx])
+    #    qt_img = self.convert_cv_qt(cv_img, 1366, 768)
+    #    self.label_screen.setPixmap(qt_img)
 
     def convert_cv_qt(self, cv_img, w_screen, h_screen):
         """Convert from an opencv image to QPixmap"""
