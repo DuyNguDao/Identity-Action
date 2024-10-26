@@ -27,6 +27,11 @@ conda create --name human_action python=3.8
 ```
 pip install -r requirements.txt
 ```
+# Seting GPU compatible with pytorch
+```
+pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
+```
+
 ### Download
 Model yolov7 pose state-dict: (Note: the model download fee is 20$. Please send information to my email to download. - ddngu0110@gmail.com)
 
