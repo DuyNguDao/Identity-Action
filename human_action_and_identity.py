@@ -24,6 +24,7 @@ from playsound import playsound
 from multiprocessing import Process
 from database.interface_sql import *
 from datetime import datetime, timedelta
+import threading
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]
@@ -139,7 +140,9 @@ class ActionAndIdentityRecognition:
                                                              'name': name, 'action': action[0],
                                                              'time': now.strftime('%a %H:%M:%S')}})
                                 # turn on buzzer
-                                t = Process(target=playsound, args=('icon/sound_beep-08.mp3',))
+                                #t = Process(target=playsound, args=('icon/sound_beep-08.mp3',))
+                                #t.start()
+                                t = threading.Thread(target=playsound, args=('icon/sound_beep-08.mp3',))
                                 t.start()
                                 image_fd = image_save[max(box[1]-10, 0):min(box[3] + 10, h), box[0]:box[2]]
                                 image_fd = cv2.resize(image_fd, (112, 112))
