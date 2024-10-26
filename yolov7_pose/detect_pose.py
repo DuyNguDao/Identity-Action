@@ -47,9 +47,9 @@ class Y7Detect:
 
             self.stride = int(self.model.stride.max())  # model stride
             self.image_size = check_img_size(self.model_image_size, s=self.stride)
-            self.half = torch.cuda.is_available()
-            if self.half:
-                self.model.half()
+            #self.half = torch.cuda.is_available()
+            #if self.half:
+            #    self.model.half()
             self.class_names = self.model.module.names if hasattr(self.model, 'module') else self.model.names
             self.colors = [[random.randint(0, 255) for _ in range(3)] for _ in self.class_names]
 
@@ -72,7 +72,8 @@ class Y7Detect:
         img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
         img = np.ascontiguousarray(img)
         img = torch.from_numpy(img).to(self.device)
-        img = img.half() if self.half else img.float()  # uint8 to fp16/32
+        #img = img.half() if self.half else img.float()  # uint8 to fp16/32
+        img = image.float()
         img /= 255.0  # 0 - 255 to 0.0 - 1.0
         if img.ndimension() == 3:
             img = img.unsqueeze(0)
