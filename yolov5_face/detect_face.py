@@ -37,9 +37,9 @@ class Y5DetectFace:
             print("Model detect face: {}, device: {}".format(weights.split('/')[-1], self.device))
             self.model.to(device=self.device)
             self.model.eval()
-            self.half = torch.cuda.is_available()
-            if self.half:
-                self.model.half()
+            #self.half = torch.cuda.is_available()
+            #if self.half:
+            #    self.model.half()
             self.class_names = self.model.module.names if hasattr(self.model, "module") else self.model.names
 
     def load_model(self, use_cuda=False):
@@ -93,8 +93,8 @@ class Y5DetectFace:
         img = img[:, :, ::-1].transpose(2, 0, 1).copy()  # BGR to RGB, to 3x416x416
         img = torch.from_numpy(img).to(self.device)
         img = img.float()  # uint8 to fp16/32
-        if self.half:
-            img = img.half()
+        #if self.half:
+        #    img = img.half()
         img /= 255.0  # 0 - 255 to 0.0 - 1.0
         if img.ndimension() == 3:
             img = img.unsqueeze(0)
