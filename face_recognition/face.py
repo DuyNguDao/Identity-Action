@@ -65,7 +65,7 @@ class Face_Model():
         feet = self.Face_Recognition.get(image, face_box_class)
         return feet
 
-    def face_compare(self, feet, threshold=0.3):
+    def face_compare(self, feet, threshold=0.4):
         try:
             sim_max, idx = self.Face_Recognition.compute_sim(feet, np.array(self.data_feet, dtype='float32'))
             if sim_max > threshold:
