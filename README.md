@@ -15,43 +15,52 @@ Instructor: TRAN THI MINH HANH
 ```
 ## Usage
 ### Install package
+#### Step 1: Download and setting anaconda environment
 ```
-git clone https://github.com/DuyNguDao/Identity-Action.git
+https://www.anaconda.com/download/success
 ```
+#### Step 2: Open Anaconda Prompt
+``` 
+Anaconda Prompt on Window
+```
+#### Step 3: Change directory to project
 ```
 cd Identity-Action
 ```
+#### Step 4: Setup python environment (GPU is required)
 ```
-conda create --name human_action python=3.8
-```
-```
-pip install -r requirements.txt
-```
-### Setting GPU compatible with PyTorch
-```
-pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
+setup_environment_gpu.bat
 ```
 
 ### Download
-Model yolov7 pose state-dict: (Note: the model download fee is 20$. Please send information to my email to download. - ddngu0110@gmail.com)
+Model yolov7 pose state-dict: (Note: the model download fee is 20$ through PayPal. Please send information to my email to download. - [ddngu0110@gmail.com]())
 
 [yolov7_w6_pose](https://drive.google.com/file/d/1UiDdOghLoRUOLbgkh41538oEXSG4dDUh/view?usp=share_link)
 ### Quick start
 #### Start and config URL
 ```
+pip uninstall opencv-python-headless
+pip install opencv-python==4.5.5.64
 python run_video.py
 ```
 #### Start with the terminal
 ```
+pip uninstall opencv-python-headless
+pip install opencv-python==4.5.5.64
 python detect_video.py --fn <url if is video or 0>
 ```
 ### Run App
-note:
+#### Step 1: Open Anaconda Prompt
+``` 
+Anaconda Prompt on Window
 ```
-pip install opencv-python-headless==4.5.5.64
+#### Step 2: Change directory to project
 ```
+cd Identity-Action
 ```
-python app.py
+#### Step 3: Run app
+```
+run_app.bat
 ```
 
 ## Datasets and result model training

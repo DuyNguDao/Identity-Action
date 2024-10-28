@@ -68,8 +68,8 @@ class ActionThread(QThread):
             frame_height = h_norm
             frame_width = w_norm
         skip = True
-        video_writer = cv2.VideoWriter('video_demo.avi',
-                                       cv2.VideoWriter_fourcc(*'XVID'), 30, (frame_width, frame_height))
+        #video_writer = cv2.VideoWriter('video_demo.avi',
+        #                               cv2.VideoWriter_fourcc(*'XVID'), 30, (frame_width, frame_height))
         while self._run_flag and use_camera == 1:
             start = time.time()
             ret, frame = self.cap.read()
@@ -89,7 +89,7 @@ class ActionThread(QThread):
             now = datetime.now()
             cv2.putText(frame, 'FPS:' + str(fps), (0, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
             cv2.putText(frame, now.strftime('%a %H:%M:%S'), (w-120, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
-            video_writer.write(frame)
+            #video_writer.write(frame)
             self.change_pixmap_signal.emit(frame)
             self.change_information_signal.emit(info)
         self.cap.release()
@@ -272,8 +272,8 @@ class FaceDetectThread(QThread):
 
     def run(self):
         bbox, label, label_id, score, kpss = self.face_model.detect(self.cv_img)
-        self.face_info.emit((bbox, label, label_id, score, kpss))
         self.wait()
+        self.face_info.emit((bbox, label, label_id, score, kpss))
 
 class AddPeople(QWidget, Tab_2):
     def __init__(self):
@@ -349,6 +349,7 @@ class AddPeople(QWidget, Tab_2):
                 self.name.setText('')
                 t = threading.Thread(target=self.face_model.create_data, args=(self.list_image, name, id))
                 t.start()
+                t.join()
                 # self.face_model.create_data(self.list_image, name, id)
                 QMessageBox.information(self, 'Information', 'Completed!')
                 self.list_image = []
@@ -365,7 +366,7 @@ class AddPeople(QWidget, Tab_2):
         tl = 1 or round(0.002 * (h + w) / 2) + 1  # line/font thickness
         cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), color, thickness=tl, lineType=cv2.LINE_AA)
         return frame
-        
+    @pyqtSlot(tuple)
     def update_image_main_screen(self, face_info):
         bbox, label, label_id, score, kpss = face_info
         cv_img = self.image.copy()
