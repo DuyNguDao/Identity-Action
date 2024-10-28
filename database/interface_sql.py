@@ -80,18 +80,21 @@ def get_all_face(name_table='faceid'):
         rows = cur.fetchall()
         id_face, fullname, face, embed = [], [], [], []
         for id, row in enumerate(rows):
-            row = list(row)
-            # convert binary to array
-            arr = np.frombuffer(row[len(row)-1], dtype='float')
-            # convert array 1D to nD
-            v_emb = arr.reshape(len(arr)//512, 512).ravel().tolist()
-            # convert image
-            image = np.frombuffer(row[len(row)-2], dtype='uint8')
-            image = image.reshape(112, 112, 3)
-            id_face.append(row[0])
-            fullname.append(row[1])
-            face.append(image)
-            embed.append(v_emb)
+            try:
+                row = list(row)
+                # convert binary to array
+                arr = np.frombuffer(row[len(row)-1], dtype='float')
+                # convert array 1D to nD
+                v_emb = arr.reshape(len(arr)//512, 512).ravel().tolist()
+                # convert image
+                image = np.frombuffer(row[len(row)-2], dtype='uint8')
+                image = image.reshape(112, 112, 3)
+                id_face.append(row[0])
+                fullname.append(row[1])
+                face.append(image)
+                embed.append(v_emb)
+            except:
+                delete_face(str(id), name_table='faceid')
         return id_face, fullname, face, embed
 
 
