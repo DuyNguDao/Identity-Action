@@ -73,7 +73,7 @@ class Y7Detect:
         img = np.ascontiguousarray(img)
         img = torch.from_numpy(img).to(self.device)
         #img = img.half() if self.half else img.float()  # uint8 to fp16/32
-        img = image.float()
+        img = img.float()
         img /= 255.0  # 0 - 255 to 0.0 - 1.0
         if img.ndimension() == 3:
             img = img.unsqueeze(0)
