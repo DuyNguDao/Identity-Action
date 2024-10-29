@@ -31,6 +31,10 @@ cd Identity-Action
 ```
 setup_environment_gpu.bat
 ```
+#### Remove python environment
+``` 
+remove_env.bat
+```
 
 ### Download
 Model yolov7 pose state-dict: (Note: the model download fee is 20$ through PayPal. Please send information to my email to download. - [ddngu0110@gmail.com]())
