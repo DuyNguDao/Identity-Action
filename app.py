@@ -347,6 +347,10 @@ class AddPeople(QWidget, Tab_2):
                 id = self.id.text()
                 self.id.setText('')
                 self.name.setText('')
+                data_face = get_all_face('faceid')
+                if str(id) in data_face[0]:
+                    QMessageBox.warning(self, 'ERROR!', 'Can not save data because ID existed in database!')
+                    return
                 t = threading.Thread(target=self.face_model.create_data, args=(self.list_image, name, id))
                 t.start()
                 t.join()
