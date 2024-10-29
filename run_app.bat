@@ -1,4 +1,4 @@
 @echo off
 conda deactivate && ^
-conda activate human_env && ^
+conda activate action_env && ^
 python app.py
