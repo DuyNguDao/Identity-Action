@@ -1,17 +1,15 @@
 # The combination of face identification and action recognition for fall detection
 ## Introduction
-Falls are a very common unexpected accident in the elderly that results in serious injuries such as broken bones, and head injury. Detecting falls and taking fall patients to the emergency room on time is very important. In this project, we propose a method combining face and action recognition for fall detection. Specifically, we identify seven basic actions in elderly daily life based on skeleton data detected using the YOLOv7-Pose model. Two deep models, Spatial-Temporal Graph Convolutional Network (ST-GCN) and Long Short-Term Memory (LSTM), are employed for action recognition on the skeleton data. The experimental results on our dataset show that the ST-GCN model achieved an accuracy of 90% higher than the LSTM model by 7%. 
-## video demo
+Falls are a prevalent unexpected accident in the elderly that results in serious injuries such as broken bones, and head injury. Detecting falls and taking fall patients to the emergency room on time is very important. In this project, we propose a method combining face and action recognition for fall detection. Specifically, we identify seven basic actions in daily life for the elderly based on skeleton data detected using the YOLOv7-Pose model. Two deep models, Spatial-Temporal Graph Convolutional Network (ST-GCN) and Long Short-Term Memory (LSTM), are employed for action recognition on the skeleton data. The experimental results on our dataset show that the ST-GCN model achieved an accuracy of 90% higher than the LSTM model by 7%. 
+## Video Demo
 https://user-images.githubusercontent.com/87271954/204276637-f5d343de-9b19-43e4-a34b-5ffb7b696d9a.mp4
 ## System Diagram
 
 ![](./information/System_diagram.png)
-## Dev
+## Developer
 ```
-Member:
- - DAO DUY NGU
- - LE VAN THIEN
-Instructor: TRAN THI MINH HANH
+ - NGU DAO DUY
+ - THIEN LE VAN
 ```
 ## Usage
 ### Install package
@@ -72,7 +70,12 @@ cd Identity-Action
 ```
 run_app.bat
 ```
-
+#### Note: When you run with run_app.py. you should install opencv-python-headless instead opencv-python. because it will cause conflict.
+#### Only run below command when running with run_app.bat is failed.
+```
+pip uninstall opencv-python==4.5.5.64
+pip install opencv-python-headless
+```
 ## Datasets and result model training
 ### Dataset human action
 [Human action](https://www.kaggle.com/datasets/ngoduy/dataset-video-for-human-action-recognition)
