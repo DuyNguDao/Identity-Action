@@ -13,5 +13,6 @@ gdown~=5.2.0
 tqdm~=4.66.5
 pyqt5~=5.15.6
 playsound~=1.2.2
-opencv-python-headless==4.5.5.64
+opencv-python-headless==4.5.5.64 #Using for run app.py
+#opencv-python==4.5.5.64 #Using for run_video.py and detect_video.py
 
