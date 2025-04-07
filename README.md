@@ -46,7 +46,7 @@ pip3 install torch==2.4.1 torchvision torchaudio --index-url https://download.py
 Model yolov7 pose state-dict: (Note: the model download fee is 20$ through PayPal. Please send information to my email to download. - [ddngu0110@gmail.com]())
 
 [yolov7_w6_pose](https://drive.google.com/file/d/1UiDdOghLoRUOLbgkh41538oEXSG4dDUh/view?usp=share_link)
-### Quick start
+### Quick start - Low Priority
 #### Start and config URL
 ```
 pip uninstall opencv-python-headless
@@ -59,7 +59,7 @@ pip uninstall opencv-python-headless
 pip install opencv-python==4.5.5.64
 python detect_video.py --fn <url if is video or 0>
 ```
-### Run App
+### Run App - High Priority
 #### Step 1: Open Anaconda Prompt
 ``` 
 Anaconda Prompt on Window
