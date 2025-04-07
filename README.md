@@ -15,7 +15,7 @@ Instructor: TRAN THI MINH HANH
 ```
 ## Usage
 ### Install package
-#### Step 1: Download and setting anaconda environment
+#### Step 1: Download and set the anaconda environment
 ```
 https://www.anaconda.com/download/success
 ```
@@ -31,6 +31,7 @@ cd Identity-Action
 ```
 setup_environment_gpu.bat
 ```
+### Skip this sector (Only for reference) ===================
 #### Remove python environment
 ``` 
 remove_env.bat
@@ -39,6 +40,7 @@ remove_env.bat
 ```
 pip3 install torch==2.4.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/test/cu121
 ```
+### ========================================================
 
 ### Download
 Model yolov7 pose state-dict: (Note: the model download fee is 20$ through PayPal. Please send information to my email to download. - [ddngu0110@gmail.com]())
