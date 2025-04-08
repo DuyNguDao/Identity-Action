@@ -14,6 +14,7 @@ from yolov7_pose.utils.plots import plot_skeleton_kpts
 import time
 from pathlib import Path
 import sys
+import gc
 
 # ----------- DON'T TOUCH HERE -------------------
 FILE = Path(__file__).resolve()
@@ -83,12 +84,18 @@ class Y7Detect:
         with torch.no_grad():
             image_rgb_shape = image_rgb.shape
             img = self.preprocess_image(image_rgb)
-            pred = self.model(img)[0]
+            output = self.model(img)[0]
 
             # apply non_max_suppression
-            pred = non_max_suppression(pred, self.conf_threshold, self.iou_threshold, kpt_label=True,
+            pred = non_max_suppression(output, self.conf_threshold, self.iou_threshold, kpt_label=True,
                                        nc=self.model.yaml['nc'],
                                        nkpt=self.model.yaml['nkpt'])
+            img_size = img.shape[2:]
+            # Clean GPU memory
+            del img, output
+            torch.cuda.empty_cache()
+            gc.collect()
+
             bboxes = []
             labels = []
             scores = []
@@ -97,8 +104,8 @@ class Y7Detect:
             for i, det in enumerate(pred):
                 if det is not None and len(det):
                     # Rescale boxes from img_size to im0 size
-                    det[:, :4] = scale_coords(img.shape[2:], det[:, :4], image_rgb_shape, kpt_label=False).round()
-                    det[:, 6:] = scale_coords(img.shape[2:], det[:, 6:], image_rgb_shape, kpt_label=True, step=3)
+                    det[:, :4] = scale_coords(img_size, det[:, :4], image_rgb_shape, kpt_label=False).round()
+                    det[:, 6:] = scale_coords(img_size, det[:, 6:], image_rgb_shape, kpt_label=True, step=3)
                 for det_idx, (*xyxy, conf, cls) in enumerate(det[:, :6]):
                     x1 = xyxy[0].detach().cpu().data.numpy()
                     y1 = xyxy[1].detach().cpu().data.numpy()
