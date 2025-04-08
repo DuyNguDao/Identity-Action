@@ -15,6 +15,7 @@ import sys
 from pathlib import Path
 import numpy as np
 import pickle
+import gc
 from yolov5_face.models.yolo import Model
 
 FILE = Path(__file__).resolve()
@@ -102,9 +103,15 @@ class Y5DetectFace:
 
     def predict(self, image_rgb):
         img = self.preprocess_image(image_rgb)
-        pred = self.model(img)[0]
+        output = self.model(img)[0]
         # NMS
-        pred = non_max_suppression_face(pred, self.conf_threshold, self.iou_threshhold)
+        pred = non_max_suppression_face(output, self.conf_threshold, self.iou_threshhold)
+        img_size = img.shape[2:]
+        # Clean GPU memory
+        del img, output
+        torch.cuda.empty_cache()
+        gc.collect()
+
         bboxes = []
         labels = []
         labels_id = []
@@ -113,8 +120,8 @@ class Y5DetectFace:
         for i, det in enumerate(pred):  # detections per image
             if len(det):
                 # Rescale boxes from img_size to im0 size
-                det[:, :4] = scale_coords(img.shape[2:], det[:, :4], image_rgb.shape).round()
-                det[:, 5:15] = self.scale_coords_landmarks(img.shape[2:], det[:, 5:15], image_rgb.shape).round()
+                det[:, :4] = scale_coords(img_size, det[:, :4], image_rgb.shape).round()
+                det[:, 5:15] = self.scale_coords_landmarks(img_size, det[:, 5:15], image_rgb.shape).round()
 
                 for j in range(det.size()[0]):
                     xyxy = det[j, :4].detach().cpu().view(-1).tolist()
