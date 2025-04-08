@@ -192,7 +192,7 @@ class ActionAndIdentityRecognition:
                     continue
                 # *************************** FACE RECOGNITION ******************************
                 feet = self.face_model.face_encoding(frame, kps=np.array(landmark_f[idx]))
-                data = self.face_model.face_compare(feet, threshold=0.3)
+                data = self.face_model.face_compare(feet, threshold=0.5)
                 name = data[1]
                 face.update({name: landmark_f[idx]})
                 info.update({name: [data[0], data[2]]})
