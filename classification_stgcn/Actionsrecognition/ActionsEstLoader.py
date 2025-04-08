@@ -1,6 +1,7 @@
 import os
 import torch
 import numpy as np
+import gc
 
 import sys
 sys.path.append('./Actionsrecognition')
@@ -62,7 +63,11 @@ class TSSTG(object):
         if self.half:
             mot = mot.half()
             pts = pts.half()
-        out = self.model((pts, mot)).detach().cpu().numpy()
+        with torch.no_grad():
+            out = self.model((pts, mot)).detach().cpu().numpy()
+            del mot, pts
+            torch.cuda.empty_cache()
+            gc.collect()
         label = self.class_names[out[0].argmax()]
         score = out[0].max()*100
         return [label], score
