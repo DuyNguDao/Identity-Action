@@ -4,7 +4,7 @@ from face_recognition import face_align
 from face_recognition.backbones import get_model
 from numpy.linalg import norm as l2norm
 import torch
-
+import gc
 
 class _Feature:
     def __init__(self, optionalRelease, mandatoryRelease, compiler_flag):
@@ -88,7 +88,11 @@ class ArcFacePyTorch:
         #if self.half:
         #    img = img.half()
         import time
-        feet = self.model(img).detach().cpu().numpy()
+        with torch.no_grad():
+            feet = self.model(img).detach().cpu().numpy()
+            del img
+            torch.cuda.empty_cache()
+            gc.collect()
         return feet.ravel()
 
 
