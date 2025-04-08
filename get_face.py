@@ -36,16 +36,16 @@ while True:
     frame = blur
     frame = cv2.putText(frame, f' MENU: Record: R -- Save Data: S -- Clear: P -- New ID: N -- Exit: E',
                         (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
-    if key == ord('r'):
+    if key == ord('r') or key == ord("R"):
         state = 'Record'
-    elif key == ord('s'):
+    elif key == ord('s') or key == ord('S'):
         state = 'Stop'
-    elif key == ord('p'):
+    elif key == ord('p') or key == key == ord('P'):
         state = 'Record Again'
         list_image.clear()
-    elif key == ord('n'):
+    elif key == ord('n') or key == ord('N'):
         state = 'New ID'
-    elif key == ord('e'):
+    elif key == ord('e') or key == ord("E"):
         break
 
     if state == 'Record':
@@ -60,7 +60,7 @@ while True:
     elif state == 'Stop':
         face_model.create_data(list_image, name, id_name)
         state = 'Normal'
-    elif state == 'Record again':
+    elif state == 'Record Again':
         list_image.clear()
         state = 'Normal'
     elif state == 'New ID':
