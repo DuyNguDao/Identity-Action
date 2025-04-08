@@ -80,7 +80,7 @@ run_app.bat
 #### Only run below command when running with run_app.bat is failed.
 ```
 pip uninstall opencv-python==4.5.5.64
-pip install opencv-python-headless
+pip install opencv-python-headless==4.5.5.64
 ```
 ## Datasets and result model training
 ### Dataset human action
