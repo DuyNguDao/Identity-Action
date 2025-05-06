@@ -41,7 +41,7 @@ pip3 install torch==2.4.1 torchvision torchaudio --index-url https://download.py
 ### ========================================================
 
 ### Download
-Model yolov7 pose state-dict: (Note: the model download fee is 35$ through PayPal. Please send information to my email to download. - [ddngu0110@gmail.com]())
+Model yolov7 pose state-dict: (Note: the model download fee is $35 through PayPal. Please send information to my email to download. - [ddngu0110@gmail.com]())
 
 [yolov7_w6_pose](https://drive.google.com/file/d/1UiDdOghLoRUOLbgkh41538oEXSG4dDUh/view?usp=share_link)
 ### Quick start - Low Priority
